@@ -1,0 +1,190 @@
+{
+  "completed": 320,
+  "total": 320,
+  "plan_exact": 177,
+  "plan_exact_rate": 0.553125,
+  "model_calls": 310,
+  "model_plan_exact": 167,
+  "host_response_plan_exact": 181,
+  "host_control_cases": 10,
+  "unexpected_cases": 187,
+  "reply_capability_gaps": 49,
+  "categories": {
+    "intent_or_state_misclassification": 116,
+    "redundant_standing_transition": 1,
+    "action_target_parameter_mismatch": 7,
+    "state_contract_rejected": 9,
+    "policy_contract_update": 11,
+    "target_grounding_rejected": 3,
+    "omitted_or_extra_goals": 4,
+    "reply_capability_gap": 49,
+    "queue_contract_rejected": 3,
+    "protocol_rejected": 2
+  },
+  "unchanged_policy_cases": 291,
+  "unchanged_policy_exact": 171,
+  "supported_action_cases": 206,
+  "supported_action_exact": 112,
+  "groups": {
+    "self_actions": {
+      "total": 52,
+      "plan_exact": 38,
+      "unexpected": 14,
+      "reply_capability_gap": 0
+    },
+    "move_units": {
+      "total": 32,
+      "plan_exact": 17,
+      "unexpected": 15,
+      "reply_capability_gap": 0
+    },
+    "continuous": {
+      "total": 4,
+      "plan_exact": 4,
+      "unexpected": 0,
+      "reply_capability_gap": 0
+    },
+    "turn": {
+      "total": 12,
+      "plan_exact": 3,
+      "unexpected": 9,
+      "reply_capability_gap": 0
+    },
+    "posture": {
+      "total": 12,
+      "plan_exact": 5,
+      "unexpected": 7,
+      "reply_capability_gap": 0
+    },
+    "target": {
+      "total": 24,
+      "plan_exact": 10,
+      "unexpected": 14,
+      "reply_capability_gap": 0
+    },
+    "unsupported": {
+      "total": 26,
+      "plan_exact": 6,
+      "unexpected": 20,
+      "reply_capability_gap": 0
+    },
+    "composition": {
+      "total": 20,
+      "plan_exact": 13,
+      "unexpected": 7,
+      "reply_capability_gap": 0
+    },
+    "history_correction": {
+      "total": 8,
+      "plan_exact": 3,
+      "unexpected": 5,
+      "reply_capability_gap": 0
+    },
+    "reference": {
+      "total": 14,
+      "plan_exact": 7,
+      "unexpected": 7,
+      "reply_capability_gap": 0
+    },
+    "active_dialogue": {
+      "total": 10,
+      "plan_exact": 7,
+      "unexpected": 6,
+      "reply_capability_gap": 4
+    },
+    "capacity": {
+      "total": 12,
+      "plan_exact": 4,
+      "unexpected": 8,
+      "reply_capability_gap": 0
+    },
+    "control": {
+      "total": 16,
+      "plan_exact": 14,
+      "unexpected": 2,
+      "reply_capability_gap": 0
+    },
+    "negation_quote": {
+      "total": 5,
+      "plan_exact": 4,
+      "unexpected": 5,
+      "reply_capability_gap": 5
+    },
+    "safety": {
+      "total": 13,
+      "plan_exact": 1,
+      "unexpected": 12,
+      "reply_capability_gap": 0
+    },
+    "chat": {
+      "total": 24,
+      "plan_exact": 22,
+      "unexpected": 23,
+      "reply_capability_gap": 22
+    },
+    "chat_during_motion": {
+      "total": 8,
+      "plan_exact": 7,
+      "unexpected": 8,
+      "reply_capability_gap": 8
+    },
+    "visual_question": {
+      "total": 5,
+      "plan_exact": 4,
+      "unexpected": 5,
+      "reply_capability_gap": 5
+    },
+    "result_question": {
+      "total": 3,
+      "plan_exact": 3,
+      "unexpected": 3,
+      "reply_capability_gap": 3
+    },
+    "pinyin_and_noisy_text": {
+      "total": 20,
+      "plan_exact": 5,
+      "unexpected": 17,
+      "reply_capability_gap": 2
+    }
+  },
+  "seconds": 1020.8295546689769,
+  "physical_executed": false,
+  "old_blind_access": false,
+  "training_allowed": false,
+  "scoring_note": "计划语义精确比较；有效实体绑定ID可等价。回复不做字符串精确分数；旧模板缺失单列。",
+  "model_plan_exact_rate": 0.5387096774193548,
+  "original_runs_preserved": true,
+  "source_runs": [
+    "baseline",
+    "baseline_extra"
+  ],
+  "human_reviewed": false,
+  "source": "agent_authored_synthetic_semantic",
+  "gold_corrections": {
+    "dev_0005": {
+      "reason": "标注脚本误把“两边”的两当成重复两次；自然语言要求左右看一次。只更正预期标签，原始预测不重跑不修改。",
+      "original_expected_goals": [
+        {
+          "type": "perform",
+          "action": "look_around",
+          "repeat": 2
+        }
+      ],
+      "corrected_expected_goals": [
+        {
+          "type": "perform",
+          "action": "look_around",
+          "repeat": 1
+        }
+      ]
+    }
+  },
+  "provenance_correction": {
+    "original_label": "independent_human_semantic_design",
+    "corrected_label": "agent_authored_synthetic_semantic",
+    "human_reviewed": false,
+    "reason": "来源原先误称human；实际是编码代理独立构造语义预期，未经用户或其他人类审核。不是用被测Q1生成金标。原始suite和predictions保留不改，reviewed文件显式纠正。"
+  },
+  "comparison_rule": "Compare only ids with model_called=true in both runs; host controls are not model ability.",
+  "score_rule": "Validator rejection cannot count as correct raw model planning even if host fallback matches gold."
+}

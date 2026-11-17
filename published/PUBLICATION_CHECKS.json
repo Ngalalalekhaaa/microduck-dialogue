@@ -1,0 +1,93 @@
+{
+  "scope": "Source snapshot publication checks; no new training or GPU inference. Only the listed test subsets were run.",
+  "ruff_check": {
+    "exit_code": 0,
+    "result": "All checks passed",
+    "paths": [
+      "strands_robots",
+      "tests",
+      "tests_integ"
+    ],
+    "log": "ruff-check.log"
+  },
+  "ruff_format": {
+    "exit_code": 0,
+    "result": "464 files already formatted",
+    "log": "ruff-format.log"
+  },
+  "experiment_tests": {
+    "exit_code": 0,
+    "passed": 127,
+    "skipped": 6,
+    "duration_seconds": 7.97,
+    "skip_reason": "jsonschema not installed in experiment environment",
+    "warning": "pytest-timeout not installed; global shell timeout 180 seconds applied",
+    "files": [
+      "test_toy_desktop_onnx.py",
+      "test_q1r_backend.py",
+      "test_toy_desktop.py",
+      "test_toy_stop_entry.py",
+      "test_q1r_pipeline.py",
+      "test_capacity15.py",
+      "test_toy_pause.py",
+      "test_q1r_data_semantics.py"
+    ],
+    "log": "experiment-pytest.log"
+  },
+  "core_fast_tests": {
+    "exit_code": 0,
+    "passed": 349,
+    "skipped": 1,
+    "deselected": 1,
+    "duration_seconds": 2.72,
+    "skip_reason": "PyYAML not installed; docs front matter module skipped",
+    "deselected_reason": "test_the_named_classes_still_work_as_before intentionally excluded to limit model loading",
+    "network_marker": "excluded",
+    "files": [
+      "test_package.py",
+      "test_layout.py",
+      "test_install_lines.py",
+      "test_public_surface.py",
+      "test_safety_wording.py",
+      "test_zenoh_pin.py",
+      "test_docs_front_matter.py",
+      "test_docs_no_emoji.py",
+      "test_changelog_format.py"
+    ],
+    "log": "core-fast-pytest.log"
+  },
+  "not_run": {
+    "full_pytest": "Only the recorded test subsets were run",
+    "lerobot_tests": "Not run"
+  },
+  "additional_checks": {
+    "mkdocs_strict": {
+      "exit_code": 0,
+      "result": "Documentation built successfully"
+    },
+    "lint_imports": {
+      "exit_code": 0,
+      "contracts_kept": 9,
+      "contracts_broken": 0
+    },
+    "mypy": {
+      "exit_code": 1,
+      "files_checked": 238,
+      "remaining_errors": [
+        {
+          "file": "strands_robots/mesh/transports/iot.py",
+          "line": 66,
+          "error": "Argument 1 to AwsLink has incompatible type str | None; expected str",
+          "scope": "Unchanged upstream source, reproduced in the publication validation environment. No code changes made to hide this result."
+        }
+      ]
+    },
+    "python_syntax": {
+      "parsed_files": 846,
+      "errors": 0
+    },
+    "published_record_checksums": {
+      "verified_files": 17
+    }
+  }
+}

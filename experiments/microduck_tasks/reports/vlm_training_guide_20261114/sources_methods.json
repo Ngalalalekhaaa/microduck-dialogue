@@ -1,0 +1,38 @@
+[
+  {
+    "key": "lora-paper",
+    "title": "Hu et al. — LoRA: Low-Rank Adaptation of Large Language Models (2021)",
+    "url": "https://arxiv.org/abs/2106.09685",
+    "claim": "冻结预训练权重，通过新增低秩矩阵学习适应变化。本文中的本机rank、alpha、可训练参数数目另由本地代码和日志证实。"
+  },
+  {
+    "key": "qlora-paper",
+    "title": "Dettmers et al. — QLoRA: Efficient Finetuning of Quantized LLMs (2023)",
+    "url": "https://arxiv.org/abs/2305.14314",
+    "claim": "在冻结四位量化底座上反向传播并训练LoRA；NF4、double quantization与分页优化器是论文提出的组成。当前项目仅实现文中说明的子集，未使用分页优化器。"
+  },
+  {
+    "key": "peft-quantization",
+    "title": "Hugging Face PEFT documentation — Quantization",
+    "url": "https://huggingface.co/docs/peft/developer_guides/quantization",
+    "claim": "BitsAndBytesConfig的NF4、double quantization、bf16 compute以及prepare_model_for_kbit_training加LoRA的官方训练路径。"
+  },
+  {
+    "key": "transfer-feature-cache",
+    "title": "François Chollet / Keras — Transfer learning & fine-tuning",
+    "url": "https://keras.io/guides/transfer_learning/",
+    "claim": "冻结预训练层并训练新层；可提前提取并记录固定特征以避免每epoch重复骨干计算；固定缓存不支持不经重提取的动态输入增强。图文状态联合特征与防标签泄漏部分是本项目提出的设计约束，而非该文针对Qwen的实证。"
+  },
+  {
+    "key": "dpo-paper",
+    "title": "Rafailov et al. — Direct Preference Optimization: Your Language Model is Secretly a Reward Model (2023)",
+    "url": "https://arxiv.org/abs/2305.18290",
+    "claim": "偏好数据的直接优化方法，无需显式拟合奖励模型的传统RLHF流程；本项目尚未实施DPO。"
+  },
+  {
+    "key": "instructgpt-paper",
+    "title": "Ouyang et al. — Training language models to follow instructions with human feedback (2022)",
+    "url": "https://arxiv.org/abs/2203.02155",
+    "claim": "示范监督微调与基于排序偏好的后续RLHF可以组合；该语言模型研究不直接构成本机器人强化学习有效性的证据。"
+  }
+]

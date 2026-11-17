@@ -1,0 +1,121 @@
+{
+  "format_version": "microduck-skill-sft-1",
+  "sample_id": "episode_20261114_160616_a3617b51:event_00005",
+  "episode_id": "episode_20261114_160616_a3617b51",
+  "task_id": "task_002",
+  "scene_seed": 2000,
+  "images": {
+    "front": "images/episode_20261114_160616_a3617b51/frame_00003_front.png",
+    "near": "images/episode_20261114_160616_a3617b51/frame_00003_near.png"
+  },
+  "instruction": "踢红球",
+  "state": {
+    "yaw": 0.017050362954329417,
+    "stationary": true,
+    "tilt_deg": 1.3927387776585165,
+    "sim_time_s": 0.6,
+    "detections_rgbd": [
+      {
+        "color": "red",
+        "center_body_m": [
+          0.09046761528937881,
+          0.03913809261891939,
+          -0.08045747452658941
+        ],
+        "pixel_uv": [
+          138.0,
+          125.0
+        ],
+        "pixels": 1231,
+        "confidence": 0.8068857445541205,
+        "fit_residual_m": 0.000196326419313446,
+        "camera": "near"
+      }
+    ]
+  },
+  "context": {
+    "previous_action": {
+      "type": "skill",
+      "skill": "stand",
+      "seconds": 0.6,
+      "target_color": "red",
+      "reply": "保持站立，等待身体稳定。"
+    },
+    "previous_feedback": "executed_and_recovered: 已实际执行 stand 0.60 秒并恢复站立。若原指令只要求走/转一下，单次动作已完成，应结束该任务；若原指令要求踢球，则根据新画面继续判断，执行过动作不代表踢球成功。",
+    "history": [
+      {
+        "action": {
+          "type": "skill",
+          "skill": "stand",
+          "seconds": 0.6,
+          "target_color": "red",
+          "reply": "保持站立，等待身体稳定。"
+        },
+        "feedback": "executed_and_recovered: 已实际执行 stand 0.60 秒并恢复站立。若原指令只要求走/转一下，单次动作已完成，应结束该任务；若原指令要求踢球，则根据新画面继续判断，执行过动作不代表踢球成功。"
+      }
+    ],
+    "step": 1,
+    "selected_color": "red"
+  },
+  "target": {
+    "type": "skill",
+    "skill": "kick_left",
+    "seconds": 0.5,
+    "target_color": "red",
+    "reply": "执行左脚踢球动作。"
+  },
+  "label": {
+    "type": "skill",
+    "skill": "kick_left",
+    "seconds": 0.5,
+    "target_color": "red",
+    "reply": "执行左脚踢球动作。"
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You control an HD1910 Microduck SIMULATION by selecting ONE next skill.\nUse the current named RGB camera images, the user's ORIGINAL instruction, allowed sensor state,\nand previous execution feedback. Choose the skill yourself; no rule planner supplies a choice.\nfront looks forward/down; near is a virtual camera looking down/back at the feet. Both images\nbelong to this same instant. A missing ball may be outside the views; never invent its location.\nState detections_rgbd, when supplied, are auxiliary color/depth measurements, NOT your detections\nand NOT simulator object coordinates. With no detections, reason from RGB but acknowledge uncertainty.\nBody axes: +X forward, +Y left, metres. yaw and turns are radians, positive to the left.\nState sim_time_s is elapsed simulation time since this task began, not the episode clock.\nAvailable skills: stand maintains balance; move_forward/backward translate along +/-X;\nmove_left/right translate along +/-Y; turn_left/right rotate yaw at about +/-1 rad/s.\nMovement commands request about 0.2 m/s, but actual short-pulse displacement is not exact.\nFor stand and turns choose 0.02..1.00 seconds; translations 0.02..0.60 seconds.\nAll durations MUST be multiples of 0.02. Short pulses permit re-observation and correction.\nkick_left/right execute an existing learned kick and require EXACTLY 0.50 seconds.\nEach motion is followed by executor-controlled standing recovery before the next observation;\nthat recovery is not another model choice. Kicks require a stationary, aligned body.\nCalibrated ball centres for kicking: left (X=0.0895,Y=0.0411), right (X=0.0881,Y=-0.0429),\nwith +/-0.012m tolerance on each axis. An execution guard may reject unsafe or unaligned kicks;\nread its feedback and choose your next skill. A rejection does not mean the action happened.\nFollow the requested ball color and do not substitute another ball. Do not claim that an\nunseen object is absent from the whole world. Answer view questions from current images.\nFor a single movement request such as '往前走' or '后退一点', choose ONE bounded pulse;\nafter feedback confirms that pulse completed, return finish instead of repeating forever.\nFor a view-description question choose answer immediately, without moving or turning.\nAfter a kick, inspect the new images before reporting its outcome; an out-of-view ball alone\ndoes not prove a successful kick. Never claim physical success based only on issuing a command.\nReturn exactly one JSON object with all five keys: type, skill, seconds, target_color, reply.\ntype is skill, answer, clarify, or finish. For skill use one allowed skill, its valid duration,\nand the task's target_color (red/yellow/blue, or null for unrelated movement).\nFor other types skill MUST be null and seconds MUST be 0. Use answer for a visual reply,\nclarify when the instruction cannot be resolved, finish when you believe the task is complete.\nfinish is only your report; independent simulation evaluation decides physical success.\nReply in concise Chinese. No markdown, additional keys, action lists, code, or joint commands.\n\n任务示例（仅说明接口语义，不是本次任务）：\n用户“往前走一点”，尚未执行：{\"type\":\"skill\",\"skill\":\"move_forward\",\"seconds\":0.32,\"target_color\":null,\"reply\":\"向前走一小段。\"}\n同一任务，上次 move_forward 已执行并站稳：{\"type\":\"finish\",\"skill\":null,\"seconds\":0,\"target_color\":null,\"reply\":\"已经向前走了一小段并停稳。\"}\n用户“向左转一下”，尚未执行：{\"type\":\"skill\",\"skill\":\"turn_left\",\"seconds\":0.6,\"target_color\":null,\"reply\":\"向左转一下。\"}\n同一任务，上次 turn_left 已执行并站稳：{\"type\":\"finish\",\"skill\":null,\"seconds\":0,\"target_color\":null,\"reply\":\"已左转并停稳。\"}\n左转/右转改变朝向，对应 turn_left/turn_right；左移/右移才对应 move_left/move_right，转向后不需再横移。\n用户“看看你眼前有什么”：直接 answer，按实际图像描述；不需要走路。\n只走一步、退后一点、转一下等请求，收到执行完成反馈后即可结束，不能因为新画面仍有地板而重复运动。\n没有要求找球或踢球时，target_color 必须为 null，不能凭空添加颜色目标。\n踢球任务可以需要多次动作；一次靠近并不等于踢球完成。依据新观测继续选择，只有实际尝试踢后才报告结果。\n目标颜色明确但球不在当前视野时，可以调用 turn_left/turn_right 转身寻找；看不到球时禁止踢球。\n例如用户“踢红球”、当前两图没有红球，可以先 turn_left 1.0秒，然后看新图。\nclarify 只用于用户目标不明确；“我需要先找到球”是你应执行的子任务，不是需要用户澄清的问题。\n"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Current camera: front"
+        },
+        {
+          "type": "image",
+          "image": "images/episode_20261114_160616_a3617b51/frame_00003_front.png"
+        },
+        {
+          "type": "text",
+          "text": "Current camera: near"
+        },
+        {
+          "type": "image",
+          "image": "images/episode_20261114_160616_a3617b51/frame_00003_near.png"
+        },
+        {
+          "type": "text",
+          "text": "{\"instruction\": \"踢红球\", \"state\": {\"yaw\": 0.017050362954329417, \"stationary\": true, \"tilt_deg\": 1.3927387776585165, \"sim_time_s\": 0.6, \"detections_rgbd\": [{\"color\": \"red\", \"center_body_m\": [0.09046761528937881, 0.03913809261891939, -0.08045747452658941], \"pixel_uv\": [138.0, 125.0], \"pixels\": 1231, \"confidence\": 0.8068857445541205, \"fit_residual_m\": 0.000196326419313446, \"camera\": \"near\"}]}, \"context\": {\"previous_action\": {\"type\": \"skill\", \"skill\": \"stand\", \"seconds\": 0.6, \"target_color\": \"red\", \"reply\": \"保持站立，等待身体稳定。\"}, \"previous_feedback\": \"executed_and_recovered: 已实际执行 stand 0.60 秒并恢复站立。若原指令只要求走/转一下，单次动作已完成，应结束该任务；若原指令要求踢球，则根据新画面继续判断，执行过动作不代表踢球成功。\", \"history\": [{\"action\": {\"type\": \"skill\", \"skill\": \"stand\", \"seconds\": 0.6, \"target_color\": \"red\", \"reply\": \"保持站立，等待身体稳定。\"}, \"feedback\": \"executed_and_recovered: 已实际执行 stand 0.60 秒并恢复站立。若原指令只要求走/转一下，单次动作已完成，应结束该任务；若原指令要求踢球，则根据新画面继续判断，执行过动作不代表踢球成功。\"}], \"step\": 1, \"selected_color\": \"red\"}}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": "{\"type\":\"skill\",\"skill\":\"kick_left\",\"seconds\":0.5,\"target_color\":\"red\",\"reply\":\"执行左脚踢球动作。\"}"
+    }
+  ],
+  "source": {
+    "event_id": "event_00005",
+    "frame_id": "frame_00003",
+    "rule_phase_audit_only": "kick",
+    "rule_task_kind_audit_only": "kick",
+    "execution": {
+      "started": true,
+      "completed": true,
+      "start_time_s": 2.599999999999967,
+      "end_time_s": 3.099999999999956
+    }
+  }
+}

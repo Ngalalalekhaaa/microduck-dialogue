@@ -1,0 +1,108 @@
+{
+  "date": "2026-11-17",
+  "kind": "selected reproducibility records; not a blind test or all raw logs",
+  "files": [
+    {
+      "path": "q1r_20261116/data_final/raw_train.jsonl",
+      "bytes": 19970101,
+      "sha256": "fef2dbedbe94d1b50958bd711282a6f8c4e68178c15fc6488d04fdf397bc7aac",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/data_final/raw_train.jsonl"
+    },
+    {
+      "path": "q1r_20261116/data_final/raw_val.jsonl",
+      "bytes": 841535,
+      "sha256": "bc57237b238dc13e81b5c1a9b5ed5094309e5987987a899152c08e1a2ba7f134",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/data_final/raw_val.jsonl"
+    },
+    {
+      "path": "q1r_20261116/data_final/manifest.json",
+      "bytes": 8347,
+      "sha256": "0f03c7b3a6713af88dcbf78c73c696e2a8a81678317b8d1b72fc870cf0efcb8c",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/data_final/manifest.json"
+    },
+    {
+      "path": "q1r_20261116/data_final/audit.json",
+      "bytes": 13248,
+      "sha256": "4b83e43d0c0216f9b722f3a09d56322f69e3365c6c309f2e75080fd8c3f4561b",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/data_final/audit.json"
+    },
+    {
+      "path": "q1r_20261116/train/training_config.json",
+      "bytes": 1519,
+      "sha256": "570e8e8a14e495ca79d4debe1cec806f64c1497d330b22f42cda14bf17c2e90e",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/train/training_config.json"
+    },
+    {
+      "path": "q1r_20261116/train/model_preflight.json",
+      "bytes": 46554,
+      "sha256": "effef9ec78c7504a0015b02f344c817c6795ecbcd9247833b9444a6ccea26338",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/train/model_preflight.json"
+    },
+    {
+      "path": "q1r_20261116/train/initialization.json",
+      "bytes": 596,
+      "sha256": "d67f9580ed2433a634d21fb156f6efff61dc92439902a3138f42cd17db6daf96",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/train/initialization.json"
+    },
+    {
+      "path": "q1r_20261116/train/learning_curve.json",
+      "bytes": 9627,
+      "sha256": "40f66bdbcd4793d104b5a36ab6f1316090c68f06e03b50386987cc3f38913ab8",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/train/learning_curve.json"
+    },
+    {
+      "path": "q1r_20261116/train/results.json",
+      "bytes": 14807,
+      "sha256": "f44af0dae11fd9c2b414ac572826d57b6a8f98592d92c598b6c78843bf18589d",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/train/results.json"
+    },
+    {
+      "path": "q1r_20261116/train/history.jsonl",
+      "bytes": 503370,
+      "sha256": "7389dd28590e73bbddffef71266007850478f68ad66e55c3b38e12e787078b12",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/train/history.jsonl"
+    },
+    {
+      "path": "q1r_20261116/selected_model.json",
+      "bytes": 7396,
+      "sha256": "dd108d21d07ea03d9f4a73cf426f8a70a946d62083f5061242dc0057cd6a4776",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/selected_model.json"
+    },
+    {
+      "path": "q1r_20261116/post_training/comparison.json",
+      "bytes": 2494,
+      "sha256": "ba4cf759820fadb14dfb7a5aae7b7c6a6c34fc6ab9325929a4b09326dda9648c",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/post_training/comparison.json"
+    },
+    {
+      "path": "q1r_20261116/evaluation_20261117/assessment.json",
+      "bytes": 23196,
+      "sha256": "4474df602c014feb1a8e68bb94d76eff500a00b51a621b194abbd8d4e58ebc3c",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/evaluation_20261117/assessment.json"
+    },
+    {
+      "path": "q1r_20261116/evaluation_20261117/data_distribution_review.json",
+      "bytes": 1625,
+      "sha256": "5f11f9f0f01405f877bb1119aa88d11e3a5cf2ae78e1598f41c5ce662006d770",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/evaluation_20261117/data_distribution_review.json"
+    },
+    {
+      "path": "q1r_20261116/evaluation_20261117/closed_loop/summary.json",
+      "bytes": 311348,
+      "sha256": "a6b51a7225c82a7f4810370088a302f284ea26cb86c1cefb1d33448bf1f57e3c",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/evaluation_20261117/closed_loop/summary.json"
+    },
+    {
+      "path": "q1r_20261116/baseline_summary.json",
+      "bytes": 4949,
+      "sha256": "ac68df92ea073af3db2fcc8f3e9fb2e8aeaf8f07e0dc7174f3c4ec0ea41b0549",
+      "source": "experiments/microduck_tasks/outputs/q1r_20261116/baseline_summary.json"
+    },
+    {
+      "path": "rgb_tof_20261116/FOOT_REACH_SUMMARY.json",
+      "bytes": 13874,
+      "sha256": "8951868dc89f12baf7dac5e80ed3c66253cc94a632299706c382a54b8108b9f0",
+      "source": "experiments/microduck_tasks/outputs/rgb_tof_20261116/FOOT_REACH_SUMMARY.json"
+    }
+  ]
+}

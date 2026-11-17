@@ -1,0 +1,119 @@
+\documentclass[UTF8,fontset=none,zihao=-4,oneside,openany]{ctexbook}
+\usepackage[a4paper,left=22mm,right=22mm,top=24mm,bottom=24mm,headheight=16pt]{geometry}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}
+\setsansfont{TeX Gyre Heros}
+\setmonofont[Scale=0.85]{DejaVu Sans Mono}
+\setCJKmainfont{Noto Serif CJK SC}
+\setCJKsansfont{Noto Sans CJK SC}
+\setCJKmonofont{Noto Sans CJK SC}
+\usepackage{amsmath,amssymb,booktabs,array,longtable,tabularx,multirow}
+\usepackage{graphicx,caption,subcaption,float}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,fit,calc}
+\usepackage[most]{tcolorbox}
+\usepackage{fvextra}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{xurl}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\definecolor{ink}{HTML}{17324D}
+\definecolor{accent}{HTML}{137C8B}
+\definecolor{pale}{HTML}{EFF7F8}
+\definecolor{softgray}{HTML}{F3F5F7}
+\hypersetup{
+  colorlinks=true,linkcolor=ink,urlcolor=accent,citecolor=accent,
+  pdftitle={Microduck VLM：从预训练到技能微调完整指南},
+  pdfauthor={依据本地项目与官方技术资料整理},
+  pdfsubject={Qwen3-VL-2B-Instruct、MuJoCo数据采集、QLoRA、技能预测头、评估与部署},
+  pdfkeywords={Microduck,Qwen3-VL,VLM,QLoRA,LoRA,技能调用,MuJoCo}
+}
+\newtcolorbox{notebox}[1]{enhanced,breakable,colback=pale,colframe=accent,
+  title={#1},fonttitle=\bfseries\sffamily,boxrule=.5pt,arc=1mm,
+  before skip=10pt,after skip=10pt,left=3mm,right=3mm,top=2mm,bottom=2mm}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash}p{#1}}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{3pt}
+\linespread{1.20}
+\setlist{topsep=4pt,itemsep=3pt,parsep=0pt,leftmargin=2em}
+\setlength{\emergencystretch}{3em}
+\renewcommand{\arraystretch}{1.25}
+\fvset{breaklines=true,breakanywhere=true,fontsize=\footnotesize,frame=single,
+  framesep=2mm,rulecolor=\color{accent},baselinestretch=1.05}
+\captionsetup{font=small,labelfont=bf}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Microduck 视觉语言技能训练指南}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[L]{\scriptsize 项目事实快照：2026-11-14 17:14（北京时间）}
+\fancyfoot[R]{\scriptsize \nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\ctexset{
+  chapter={format=\Huge\bfseries\sffamily\color{ink},beforeskip=8pt,afterskip=20pt},
+  section={format=\Large\bfseries\sffamily\color{ink}},
+  subsection={format=\large\bfseries\sffamily\color{accent}}
+}
+\setcounter{tocdepth}{1}
+\begin{document}
+\begin{titlepage}
+\thispagestyle{empty}
+\vspace*{12mm}
+{\sffamily\color{accent}\large 实践手册 / 本地 HD1910 仿真项目\par}
+\vspace{12mm}
+{\sffamily\bfseries\color{ink}\fontsize{31}{42}\selectfont Microduck VLM\par}
+\vspace{5mm}
+{\sffamily\bfseries\color{ink}\fontsize{23}{34}\selectfont 从预训练到技能微调\par 完整流程与输入输出\par}
+\vspace{12mm}
+{\large Qwen3-VL-2B-Instruct · 规则示范 · QLoRA · 冻结技能头\par}
+\vspace{12mm}
+\begin{tikzpicture}[node distance=7mm,>=Latex,
+  stage/.style={draw=accent,fill=pale,rounded corners=2mm,minimum width=135mm,
+  minimum height=13mm,align=center,font=\sffamily}]
+  \node[stage] (a) {公开模型：图像与语言基础能力};
+  \node[stage,below=of a] (b) {本地仿真：采集画面、指令、状态和正确技能};
+  \node[stage,below=of b] (c) {监督训练：学习下一步技能与参数};
+  \node[stage,below=of c] (d) {独立验收：格式、决策、完整机器人任务};
+  \draw[->,thick,accent] (a)--(b);
+  \draw[->,thick,accent] (b)--(c);
+  \draw[->,thick,accent] (c)--(d);
+\end{tikzpicture}
+\vfill
+{\large 阅读目标：理解每一层做什么、数据从哪里来、哪些参数在学习，\\
+以及如何判断模型真的能够完成任务。\par}
+\vspace{8mm}
+{\small 版本 1.0 · 编写日期 2026-11-14\\
+本地状态快照 17:14:02（北京时间）；训练进度之后仍会变化。\\
+以本地源代码、冻结数据清单及官方论文为依据。}
+\end{titlepage}
+\frontmatter
+\chapter*{怎样使用这本指南}
+\addcontentsline{toc}{chapter}{怎样使用这本指南}
+如果你第一次接触模型训练，建议依次阅读第1章的全局地图、第2章的预训练基础、第3章的数据和第5章的实际训练。第4章解释机器人如何执行，第6章比较其它训练方案，第7章解释验收，第8章提供操作命令，第9章集中回答常见疑问。目录和来源链接可点击。
+
+本指南中，“当前实现”指 \texttt{/home/luckysir/Strands\_Robots} 内核验过的代码与文件；“公开资料”指文末可追溯的一手模型资料；“建议方案”指可实施但尚未接入的设计；“教学示例”用于解释原理，不冒充真实模型输出。预训练方没有公开的逐条数据、精确配比、全部训练超参数，不可能从本地权重反推出，本书会明确保留这一边界。
+
+学习时可以反复追问四件事：\textbf{输入是什么？输出是什么？谁生成正确答案？哪些参数真的被更新？} 只要这四件事始终清楚，就不会把规则、模型推理、模型训练和底层电机控制混在一起。
+
+\begin{notebox}{本书描述的当前状态}
+正式 QLoRA 已在本地运行。固定快照时为第101/2375次参数更新，最新完整检查点为第100步。它还没有完成本轮训练，也没有通过微调后机器人闭环验收。原有 \texttt{serve\_vlm.sh} 仍使用原始 GGUF，尚未自动加载训练中的 LoRA。这里的数字是书面快照，不是实时监控。
+\end{notebox}
+\tableofcontents
+\mainmatter
+\input{00_overview.tex}
+\input{01_pretraining.tex}
+\input{02_data.tex}
+\input{03_runtime.tex}
+\input{04_training.tex}
+\input{05_methods.tex}
+\input{06_evaluation.tex}
+\input{07_operations.tex}
+\input{08_faq.tex}
+\appendix
+\input{09_inventory.tex}
+\backmatter
+\input{references.tex}
+\end{document}

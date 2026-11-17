@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Microduck · 训练数据审查</title>
+<style>
+[hidden]{display:none!important}
+*{box-sizing:border-box}body{margin:0;background:#10151c;color:#e7edf3;font:15px/1.55 system-ui,"Noto Sans CJK SC",sans-serif}a{color:#8ed9ee}button,select,input{font:inherit;color:inherit;background:#23313e;border:1px solid #415365;border-radius:6px;padding:7px 10px}button{cursor:pointer}button:hover{background:#345064}button:disabled{opacity:.4;cursor:default}input{min-width:230px}h1{font-size:26px;margin:0}h2{font-size:19px;margin:4px 0 12px}h3{font-size:15px;margin:8px 0}p{margin:8px 0}header,main{max-width:1500px;margin:auto;padding:22px}header{padding-bottom:8px}.muted{color:#a8b8c8}.intro{max-width:1120px}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.card,.panel{background:#19232e;border:1px solid #304250;border-radius:10px;padding:16px}.number{font-size:27px;font-weight:700}.warn{background:#342b1b;border-left:4px solid #efb65a;padding:12px 16px;border-radius:6px;margin:12px 0}.good{color:#86d5b1}.bad{color:#ffb17d}.filters,.nav,.notes{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.filters{position:sticky;top:0;background:#10151cf2;padding:12px 0;z-index:5;border-bottom:1px solid #354655}.layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(320px,1fr);gap:16px;margin-top:16px}.cameras{display:grid;grid-template-columns:1fr 1fr;gap:12px}.cameras img{display:block;width:100%;aspect-ratio:4/3;object-fit:contain;background:#000;border-radius:6px}.caption{font-size:13px;color:#b4c5d4}.pill{display:inline-block;background:#2a4050;padding:2px 9px;border-radius:20px;margin:3px 5px 3px 0;font-size:13px}pre{white-space:pre-wrap;word-break:break-word;font:13px/1.55 ui-monospace,monospace;max-height:400px;overflow:auto;background:#101820;padding:12px;border-radius:7px}details{margin:12px 0}summary{cursor:pointer;font-weight:600}table{border-collapse:collapse;width:100%;font-size:13px}td,th{text-align:left;border-bottom:1px solid #324350;padding:7px 5px}.chart{display:grid;grid-template-columns:150px 1fr 65px;gap:8px;align-items:center;margin:6px 0}.bar{background:#30414f;height:14px;border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;background:#65bad0}.timeline{display:flex;gap:5px;overflow:auto;padding:10px 0;max-height:150px;flex-wrap:wrap}.timeline button{font-size:12px;padding:4px 7px}.timeline .active{background:#176f8c;outline:2px solid #91d9e9}.instruction{font-size:21px;font-weight:650}.highlight-list{display:flex;gap:7px;flex-wrap:wrap}.highlight-list button{font-size:13px}#position{min-width:90px;text-align:center}#slider{flex:1;min-width:120px}#loading{padding:15px;color:#efb65a}#sourceid{overflow-wrap:anywhere}.note-input{width:100%;margin:8px 0}.distributions{display:grid;grid-template-columns:1fr 1fr;gap:25px}.error{color:#ffb17d}@media(max-width:1000px){.layout{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.filters{position:static}.distributions{grid-template-columns:1fr}}@media(max-width:600px){header,main{padding:12px}.cameras{grid-template-columns:1fr}}
+</style>
+<header>
+<div class="muted">本地只读 · HD1910 MuJoCo · 数据审查 / 2026-11-15</div>
+<h1>模型究竟学了哪些动作？</h1>
+<p class="intro">逐条查看原始 front / near 图像、指令、规则示范、模型预测和前序动作。浏览不会修改数据或启动训练。所有图片和记录来自本地，页面不访问网络。</p>
+<div class="cards"><div class="card"><div class="number">9,500</div>训练记录 / 500 个 episode</div><div class="card"><div class="number">1,299 / 1,135</div>验证 / 独立测试记录</div><div class="card"><div class="number">20 / 24</div>已测单步字段匹配 · 非任务成功率</div><div class="card"><div class="number">23</div>失败踢球任务被排除 · 可在下方查看</div></div>
+<div class="warn"><strong>当前发现：</strong>规则的成功轨迹也包含反复左右调整；踢球脚的历史选择没有显式提供给学生；失败和拒绝后的纠正示范缺失。训练输入同时包含 RGB-D 检测坐标，不能据此确认模型主要依赖图像。下面的“阶段”仅供审查，并未输入模型。</div>
+<details><summary>评估范围、类别分布与审查证据</summary>
+<p>训练损失只看固定 32 条验证样本，生成评估只看其中 24 条；评分字段为 type / skill / seconds / target_color，不评分文字描述，也不执行下一步。随机位置完整找球任务尚无成功率评估。已对齐红球仅独立验收 1 次。</p>
+<div class="distributions"><section><h3>训练动作分布</h3><div id="skillChart"></div></section><section><h3>训练阶段分布（审查字段）</h3><div id="phaseChart"></div></section></div>
+<p><a href="审查说明.txt">完整中文审查说明</a> · <a href="audit_dataset.json">全量数据审查 JSON</a> · <a href="audit_highlights.json">问题轨迹与证据</a> · <a href="audit_trajectory_efficiency.json">长轨迹统计</a> · <a href="../onnx_test_20261115/summary.json">此前 ONNX 评估</a> · <a href="../qlora_20261114/system_prompt.txt">训练固定提示词</a></p>
+<p><a href="visual_audit/representative_samples.jpg">阶段与错误样本联系图</a> · <a href="visual_audit/backward_boundary_sequence.jpg">连续后退画面</a> · <a href="visual_audit/excluded_failure_examples.jpg">三种失败案例</a></p>
+<p class="muted">导出失败轨迹供审查，不代表其中的动作可直接作为正确标签。人工标记只保存在此浏览器，需下载后才能另行审核使用。</p></details>
+</header>
+<main>
+<h2>建议先看</h2><div id="highlights" class="highlight-list"></div>
+<div class="filters">
+<select id="mode" aria-label="查看范围"><option value="errors">模型选错的验证样本</option><option value="all">全部正式数据</option><option value="excluded">被排除的失败轨迹</option><option value="task">当前任务连续轨迹</option><option value="marked">我的人工标记</option></select>
+<select id="split" aria-label="数据划分"><option value="">全部划分</option><option value="train">train</option><option value="val">val</option><option value="test">test</option></select>
+<select id="phase" aria-label="阶段"><option value="">全部阶段</option></select>
+<select id="skill" aria-label="动作"><option value="">全部动作 / 回复</option></select>
+<select id="color" aria-label="目标颜色"><option value="">全部颜色</option><option value="red">红</option><option value="yellow">黄</option><option value="blue">蓝</option><option value="none">无目标颜色</option></select>
+<input id="search" placeholder="指令、sample_id 或 seed 搜索" aria-label="搜索">
+<button id="reset">清除筛选</button></div>
+<p id="loading">正在载入本地记录…</p>
+<div class="nav"><button id="prev">上一条</button><span id="position"></span><button id="next">下一条</button><input type="range" id="slider" min="0" max="0" value="0" aria-label="样本位置"><button id="play">每秒一帧</button><button id="task">展开该任务</button></div>
+<div id="content" class="layout" hidden>
+<section class="panel"><div id="badges"></div><p class="instruction" id="instruction"></p><p id="sourceid" class="caption"></p><div id="risk" class="warn" hidden></div>
+<div class="cameras"><div><h3>front · 前视 RGB</h3><a id="frontLink" target="_blank"><img id="front" alt="原始前视相机图像"></a><div class="caption">原始图像，点击放大</div></div><div><h3>near · 虚拟近场 RGB</h3><a id="nearLink" target="_blank"><img id="near" alt="原始近场相机图像"></a><div class="caption">原始图像，点击放大</div></div></div>
+<h3>同任务动作序列</h3><p class="caption">点击任一步查看画面。阶段缩写：search 搜索 / face 转向 / approach 接近 / align 对齐 / settle 站稳。序列是数据记录，并非视频播放速度。</p><div id="timeline" class="timeline"></div>
+<details open><summary>当前 RGB-D 测量与身体状态</summary><div id="stateBrief"></div><div id="detections"></div><p class="caption">X 向前、Y 向左，单位米；测量结果确实作为文本输入了训练模型。</p></details>
+</section>
+<section class="panel"><h2 id="targetTitle">规则示范标签</h2><pre id="target"></pre><div id="predictions"></div>
+<details open><summary>模型输入的最近动作 / 反馈</summary><pre id="context"></pre></details>
+<details><summary>整条任务的验收结果与来源</summary><pre id="result"></pre><a id="summaryLink" target="_blank">打开原任务 summary.json</a> · <a id="eventsLink" target="_blank">原始 events.jsonl</a></details>
+<details><summary>本条完整审查记录（含状态）</summary><pre id="raw"></pre><button id="downloadRow">下载本条审查记录</button></details>
+<h3>人工审查标记</h3><select id="mark" aria-label="审查结论"><option value="">未标记</option><option value="reasonable">示范合理</option><option value="uncertain">需要复核</option><option value="bad_label">标签疑似不当</option></select><input class="note-input" id="note" placeholder="备注：例如应向前却持续横移"><button id="saveMark">保存标记</button> <button id="exportMarks">下载全部标记</button><p id="markStatus" class="caption"></p>
+</section></div>
+<footer class="muted"><p>本页面数据为固定快照。图片使用原始文件的相对路径，请保留它与 outputs 数据目录的相对位置。按 ← / → 逐条查看。审查脚本：build_data_review.py。</p></footer>
+</main>
+<script src="review_data.js"></script><script src="review.js"></script>
+</html>

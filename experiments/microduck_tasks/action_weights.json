@@ -1,0 +1,279 @@
+[
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "alpha_ground_pick.onnx",
+    "path": "pollen-robotics__microduck-policies__alpha_ground_pick.onnx",
+    "sha256": "ffbf5109982ff999b0ba53afe86b9ae731bbec679d67fb7f8ab4c52152c88872",
+    "bytes": 793685,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/alpha_ground_pick.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "alpha_sitstand.onnx",
+    "path": "pollen-robotics__microduck-policies__alpha_sitstand.onnx",
+    "sha256": "a6f102d9fd655782ba85bfffe18175c34621da719cffcdd673be7982a06fc254",
+    "bytes": 793695,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/alpha_sitstand.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "alpha_stand.onnx",
+    "path": "pollen-robotics__microduck-policies__alpha_stand.onnx",
+    "sha256": "1569268713e40deea795dd2922dba50d3621e15a872855408b6b1b125b1c094b",
+    "bytes": 793705,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/alpha_stand.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "alpha_walking.onnx",
+    "path": "pollen-robotics__microduck-policies__alpha_walking.onnx",
+    "sha256": "e36332d383997d51401897734cd3e79cf5038406feddb18b4d57ecfb141daa6c",
+    "bytes": 793705,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/alpha_walking.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "ball_kick_left.onnx",
+    "path": "pollen-robotics__microduck-policies__ball_kick_left.onnx",
+    "sha256": "d6928284dccd3dd61e08bf2f760effa74309fbefd97b2b31afb2a60f526d196a",
+    "bytes": 793685,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/ball_kick_left.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "ball_kick_right.onnx",
+    "path": "pollen-robotics__microduck-policies__ball_kick_right.onnx",
+    "sha256": "147a32c388c6b19111b3ac3b550a9a6dc8b8bf267118af4d8c3712522eedb5af",
+    "bytes": 793685,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/ball_kick_right.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "roller.onnx",
+    "path": "pollen-robotics__microduck-policies__roller.onnx",
+    "sha256": "7b581097a9bc4782a695fd7654edb0c565649ad593ae439563ddf4b2b2e8a8c7",
+    "bytes": 793934,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/roller.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "roller_crouch.onnx",
+    "path": "pollen-robotics__microduck-policies__roller_crouch.onnx",
+    "sha256": "a1a084be240469c76ac9d3fa44d4792f16d4b1da60398b3ecd3cfc5e2244d990",
+    "bytes": 793685,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/roller_crouch.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "roulade.onnx",
+    "path": "pollen-robotics__microduck-policies__roulade.onnx",
+    "sha256": "3d60da08fc13f29c1b57f41977aa898132c0d60042100149d8e775affcbca32b",
+    "bytes": 793685,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/roulade.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "pollen-robotics/microduck-policies",
+    "revision": "236d1835b03ac7b45d962efbf2fe3a6940206112",
+    "license": "apache-2.0",
+    "file": "velstand.onnx",
+    "path": "pollen-robotics__microduck-policies__velstand.onnx",
+    "sha256": "ce894d30b3343036d499bfac1102bdaa58d59a21c1b58401ecb70fb6a2f63e0a",
+    "bytes": 793705,
+    "url": "https://huggingface.co/pollen-robotics/microduck-policies/resolve/236d1835b03ac7b45d962efbf2fe3a6940206112/velstand.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "fffiloni/microduck-polite-bow-b1d864",
+    "revision": "9a9d21a85cf7b5cbd1854c03ad58bd949502a5ea",
+    "license": null,
+    "file": "policy.onnx",
+    "path": "fffiloni__microduck-polite-bow-b1d864__policy.onnx",
+    "sha256": "f2f777919cee080d2d172c635d4b6ead14c0e01a7065ac64bd21cc5fad14158c",
+    "bytes": 793812,
+    "url": "https://huggingface.co/fffiloni/microduck-polite-bow-b1d864/resolve/9a9d21a85cf7b5cbd1854c03ad58bd949502a5ea/policy.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "RemiFabre/microduck-flamingo-cycle",
+    "revision": "a69e4f6103a70e355983eb5d4e919da76778a40f",
+    "license": "apache-2.0",
+    "file": "policy.onnx",
+    "path": "RemiFabre__microduck-flamingo-cycle__policy.onnx",
+    "sha256": "df77929c39d7695092bdaf810c2075e20a9ba91abd8192b4073d3de593d56904",
+    "bytes": 793774,
+    "url": "https://huggingface.co/RemiFabre/microduck-flamingo-cycle/resolve/a69e4f6103a70e355983eb5d4e919da76778a40f/policy.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "witcheer/microduck-hop",
+    "revision": "232d78eed8d9221bffe2d4b7d54c39a2ba8dff85",
+    "license": null,
+    "file": "policy.onnx",
+    "path": "witcheer__microduck-hop__policy.onnx",
+    "sha256": "5398c089f3ceceeaefb315c502b2c5a436d3143ecf3dec00cbea7a7059444a4a",
+    "bytes": 793799,
+    "url": "https://huggingface.co/witcheer/microduck-hop/resolve/232d78eed8d9221bffe2d4b7d54c39a2ba8dff85/policy.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "joanfox/microduck-happy-hop",
+    "revision": "c0447da668255436eea070e862ad8eb89bad2ba1",
+    "license": "apache-2.0",
+    "file": "policy.onnx",
+    "path": "joanfox__microduck-happy-hop__policy.onnx",
+    "sha256": "abd6db1bca2f2a583508cfd9a6fd144a7cce65b302827b9b9a0c5227fc2acae9",
+    "bytes": 793778,
+    "url": "https://huggingface.co/joanfox/microduck-happy-hop/resolve/c0447da668255436eea070e862ad8eb89bad2ba1/policy.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "HannesVonEssen/microduck-running",
+    "revision": "9f45af1f4b04252f3aa1f4c056fa7fa0d4b35e4c",
+    "license": "apache-2.0",
+    "file": "policy.onnx",
+    "path": "HannesVonEssen__microduck-running__policy.onnx",
+    "sha256": "007707dd7779b2756ded67c58b2e9f94fe5071794a48c2b5a20d5f8d841efbeb",
+    "bytes": 793744,
+    "url": "https://huggingface.co/HannesVonEssen/microduck-running/resolve/9f45af1f4b04252f3aa1f4c056fa7fa0d4b35e4c/policy.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "q2p/microduck-beak-throw",
+    "revision": "f32dc673fa0dea71457a5fe716497d2d5483e087",
+    "license": "apache-2.0",
+    "file": "alpha_stand.onnx",
+    "path": "q2p__microduck-beak-throw__alpha_stand.onnx",
+    "sha256": "1569268713e40deea795dd2922dba50d3621e15a872855408b6b1b125b1c094b",
+    "bytes": 793705,
+    "url": "https://huggingface.co/q2p/microduck-beak-throw/resolve/f32dc673fa0dea71457a5fe716497d2d5483e087/alpha_stand.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "q2p/microduck-beak-throw",
+    "revision": "f32dc673fa0dea71457a5fe716497d2d5483e087",
+    "license": "apache-2.0",
+    "file": "beak_throw.onnx",
+    "path": "q2p__microduck-beak-throw__beak_throw.onnx",
+    "sha256": "8638bbd29b672d84bcd426b02fa49eb6224ab57b29f5556b4003f3052bf5cecd",
+    "bytes": 793841,
+    "url": "https://huggingface.co/q2p/microduck-beak-throw/resolve/f32dc673fa0dea71457a5fe716497d2d5483e087/beak_throw.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "HannesVonEssen/microduck-basketball",
+    "revision": "6e61a733aeff338bdd352148819bc99cf9a51491",
+    "license": "apache-2.0",
+    "file": "policy.onnx",
+    "path": "HannesVonEssen__microduck-basketball__policy.onnx",
+    "sha256": "e105148b160b3a86170621648215be38dd5018e955930ce182394f4513c7569b",
+    "bytes": 2500571,
+    "url": "https://huggingface.co/HannesVonEssen/microduck-basketball/resolve/6e61a733aeff338bdd352148819bc99cf9a51491/policy.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "fffiloni/microduck-moonwalk-backward-55e6af",
+    "revision": "951073cb7791a898e3e5ecb242c5bcccf40aa72f",
+    "license": null,
+    "file": "policy.onnx",
+    "path": "fffiloni__microduck-moonwalk-backward-55e6af__policy.onnx",
+    "sha256": "924e0bb28bc4ea5610cc8eeb9e5973e2bad467698984da2f13a8426a84c518c4",
+    "bytes": 793821,
+    "url": "https://huggingface.co/fffiloni/microduck-moonwalk-backward-55e6af/resolve/951073cb7791a898e3e5ecb242c5bcccf40aa72f/policy.onnx",
+    "origin": "public"
+  },
+  {
+    "repo": "ZachGarner/microduck-headstand-fold",
+    "revision": "a889f49599a658c1c6ca780e446ed98c381b4093",
+    "license": null,
+    "file": "policy.onnx",
+    "path": "ZachGarner__microduck-headstand-fold__policy.onnx",
+    "sha256": "1a94aaab05326085ca9af8c5b54f7e5d82bfe6111989d2c1902bb4b0e8967b78",
+    "bytes": 793816,
+    "url": "https://huggingface.co/ZachGarner/microduck-headstand-fold/resolve/a889f49599a658c1c6ca780e446ed98c381b4093/policy.onnx",
+    "origin": "public"
+  },
+  {
+    "key": "hd_sit",
+    "file": "hd1910_sitstand_com_2598.onnx",
+    "path": "/home/luckysir/microduck/deploy_hd1910/models/hd1910_sitstand_com_2598.onnx",
+    "origin": "local_hd1910",
+    "sha256": "ffb69bcf1816bdb7b597e8cebd2cfadf870c1e6d89eb1b38528b0c94d307b316",
+    "bytes": 793795
+  },
+  {
+    "key": "hd_pick",
+    "file": "hd1910_ground_pick_2249.onnx",
+    "path": "/home/luckysir/microduck/deploy_hd1910/models/hd1910_ground_pick_2249.onnx",
+    "origin": "local_hd1910",
+    "sha256": "c4ec0a39712d4b885b1e9a7a529d650c62c3561986729a2fde67517fcdace330",
+    "bytes": 793778
+  },
+  {
+    "key": "hd_roll",
+    "file": "hd1910_roulade_1600.onnx",
+    "path": "/home/luckysir/microduck/deploy_hd1910/models/hd1910_roulade_1600.onnx",
+    "origin": "local_hd1910",
+    "sha256": "c7a1a651726ac8d30ba264045bf2dbc05584f608ba96ad338b7c46a5dd2eab59",
+    "bytes": 793784
+  },
+  {
+    "repo": "kramp/microduck-groove",
+    "revision": "b94e53dfad4c277c48447d44c6b8c014820fcc89",
+    "license": null,
+    "file": "policy.onnx",
+    "path": "kramp__microduck-groove__policy.onnx",
+    "origin": "public",
+    "sha256": "8b283a9e762398991d2eb9d5a4e2d0442b8f160030ddb0cec54dff0b316f581d",
+    "bytes": 793769,
+    "url": "https://huggingface.co/kramp/microduck-groove/resolve/b94e53dfad4c277c48447d44c6b8c014820fcc89/policy.onnx"
+  },
+  {
+    "repo": "q2p/microduck-dizzy-duck",
+    "revision": "110ee9ee085dd673aa7617d4f7d029769f341df0",
+    "license": null,
+    "file": "policy.onnx",
+    "path": "q2p__microduck-dizzy-duck__policy.onnx",
+    "origin": "public",
+    "sha256": "dcaf0208ef83806deceb42d142c6ea9f29ac4a8f0466c68fc7d33241c10c371e",
+    "bytes": 793759,
+    "url": "https://huggingface.co/q2p/microduck-dizzy-duck/resolve/110ee9ee085dd673aa7617d4f7d029769f341df0/policy.onnx"
+  },
+  {
+    "repo": "microduckapp/microduck-caught-dancing",
+    "revision": "bc47f5de0f13315ddba15fd7c01255244a30d968",
+    "license": null,
+    "file": "policy.onnx",
+    "path": "microduckapp__microduck-caught-dancing__policy.onnx",
+    "origin": "public",
+    "sha256": "44a6f3112405d7d6ba51b9518e6e7ab7e67a3d323546ede2a46e9100e250afaa",
+    "bytes": 822085,
+    "url": "https://huggingface.co/microduckapp/microduck-caught-dancing/resolve/bc47f5de0f13315ddba15fd7c01255244a30d968/policy.onnx"
+  }
+]

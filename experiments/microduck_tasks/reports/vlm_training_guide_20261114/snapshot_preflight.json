@@ -1,0 +1,11 @@
+{
+  "train_examples": 9500,
+  "validation_examples": 1299,
+  "min_tokens": 1415,
+  "median_tokens": 2356,
+  "max_tokens": 2683,
+  "longest_combined_index": 2094,
+  "longest_train_index": 2094,
+  "system_tokens": 1085,
+  "truncation": false
+}

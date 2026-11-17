@@ -1,0 +1,10 @@
+{
+  "parent_checkpoint": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/staged_plan_20261116/q1/train1200/checkpoint_100",
+  "parent_adapter_sha256": "e78ac09bacf4d61c4d4e8c8f8be3afc3bc6b011d6303ff7816ed967ed56cb67d",
+  "parent_weights_sha256": "bef328c1a174500a622da75563eae8d857ed3ba40a5e2378cc6ea44574206a88",
+  "actual_weights_sha256": "bef328c1a174500a622da75563eae8d857ed3ba40a5e2378cc6ea44574206a88",
+  "exact_parent_weights": true,
+  "new_adapter": false,
+  "optimizer": "fresh AdamW state for the new dialogue objective",
+  "trained_output": "decision+goals+reply"
+}

@@ -1,0 +1,141 @@
+{
+  "verified_utc": "2026-11-14T08:39:27.107623+00:00",
+  "pid": 1610354,
+  "checkpoint": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/qlora_20261114/checkpoint-000010",
+  "checkpoint_step": 10,
+  "micro_cursor": 40,
+  "total_steps": 2375,
+  "files": {
+    "adapter/adapter_config.json": 1058,
+    "adapter/adapter_model.safetensors": 34922600,
+    "training_state.pt": 70075677,
+    "progress.json": 178
+  },
+  "optimizer_parameter_states": 392,
+  "optimizer_all_at_step_10": true,
+  "scheduler_last_epoch": 10,
+  "rng_states_present": true,
+  "adapter_tensors": 392,
+  "nonzero_lora_B_tensors": 196,
+  "training_config_sha256": "28926b7dc538f7e85e8bd8ab28517563264ff8bd94cce4f48a229df49ca326ea",
+  "step_10_metric": {
+    "step": 10,
+    "micro_cursor": 40,
+    "train_loss": 1.0390290170907974,
+    "sequence_tokens_max": 2680,
+    "grad_norm": 4.564749717712402,
+    "learning_rate": 8.47457627118644e-06,
+    "elapsed_s": 220.7053372929804,
+    "peak_allocated_mib": 3409.91796875,
+    "peak_reserved_mib": 4318.0
+  },
+  "seconds_per_optimizer_update": 22.07053372929804,
+  "estimated_total_training_hours_excluding_evaluation": 14.560421557523012,
+  "baseline": {
+    "validation_loss": 1.0132740526460111,
+    "adapter_updates": 0,
+    "generation": {
+      "count": 24,
+      "selection": "deterministic_round_robin_skill_or_response_type",
+      "indices": [
+        1148,
+        991,
+        654,
+        1145,
+        647,
+        124,
+        161,
+        928,
+        151,
+        1139,
+        532,
+        494,
+        1157,
+        368,
+        809,
+        1125,
+        598,
+        1019,
+        497,
+        962,
+        677,
+        1164,
+        180,
+        1072
+      ],
+      "by_category": {
+        "answer": {
+          "count": 2,
+          "valid_json": 0,
+          "joint_correct": 0
+        },
+        "clarify": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 1
+        },
+        "finish": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 2
+        },
+        "kick_left": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 2
+        },
+        "kick_right": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 0
+        },
+        "move_backward": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 1
+        },
+        "move_forward": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 0
+        },
+        "move_left": {
+          "count": 2,
+          "valid_json": 1,
+          "joint_correct": 0
+        },
+        "move_right": {
+          "count": 2,
+          "valid_json": 1,
+          "joint_correct": 0
+        },
+        "stand": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 0
+        },
+        "turn_left": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 0
+        },
+        "turn_right": {
+          "count": 2,
+          "valid_json": 2,
+          "joint_correct": 0
+        }
+      },
+      "valid_json_rate": 0.8333333333333334,
+      "type_accuracy": 0.75,
+      "skill_accuracy": 0.2916666666666667,
+      "target_color_accuracy": 0.7083333333333334,
+      "seconds_accuracy": 0.375,
+      "joint_accuracy": 0.25
+    }
+  },
+  "disk_free_gib": 18.744712829589844,
+  "gpu": "5287 MiB, 463 MiB, 100 %",
+  "process_alive": true,
+  "verification_method": "Read completed checkpoint on CPU only; active GPU training process unchanged.",
+  "trained_policy_validated": false
+}

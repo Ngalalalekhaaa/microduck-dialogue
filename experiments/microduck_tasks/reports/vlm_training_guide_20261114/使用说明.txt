@@ -1,0 +1,38 @@
+Microduck VLM：从预训练到技能微调完整指南
+版本 1.0，2026-11-14
+
+主文件：Microduck_VLM_从预训练到微调完整指南.pdf
+A4 中文文档；支持文字选择、目录跳转和来源链接。
+
+阅读顺序
+第1章全局流程 → 第2章预训练 → 第3章数据 → 第5章当前QLoRA。
+第4章解释技能执行，第6章比较其它微调方法，第7章讨论评估，
+第8章提供命令，第9章解答常见问题，附录提供术语和文件索引。
+
+范围和时效
+报告以HD1910仿真项目为对象。运行状态固定于北京时间2026-11-14
+17:14:02；后台日志继续增长不会自动改变报告。公开预训练资料、
+本地已经实现的功能、建议方案和教学示例在正文中分别说明。
+未公开的原始预训练数据清单和配比无法从本地模型中还原。
+本次编写和构建没有修改或中断训练进程。
+
+源文件
+00_overview.tex 至 09_inventory.tex：各章。
+guide.tex：主文档和排版；references.tex：构建时生成的来源。
+snapshot_*：冻结训练状态；sample_*_original.json：真实样本。
+sources_*.json：资料链接和本地证据。
+assets/sample_*.png：原始仿真相机图。
+assets/training_snapshot.pdf：根据冻结日志生成的训练曲线。
+report_manifest.json：PDF和章节文件的SHA256。
+
+重新构建
+在本目录执行：
+python3 build_report.py
+
+需要Python 3、Matplotlib、XeLaTeX及ctex、TikZ、tcolorbox、fvextra、
+hyperref等LaTeX包。字体使用Noto Serif/Sans CJK SC、DejaVu Sans Mono、
+TeX Gyre Termes/Heros。图表脚本使用字体文件：
+/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc
+本机已成功构建；其它机器需先安装上述依赖或调整字体路径。
+构建脚本只读取本目录的固定快照，不加载模型、不占用训练GPU，
+不更新真实训练数据、模型权重或训练状态。

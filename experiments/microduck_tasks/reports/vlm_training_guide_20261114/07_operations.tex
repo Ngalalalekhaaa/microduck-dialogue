@@ -1,0 +1,196 @@
+\chapter{本机操作手册：查看、评测、续训与部署}
+\section{先找到主要目录}
+以下路径以项目根目录 \texttt{/home/luckysir/Strands\_Robots} 为起点。阅读PDF中的命令并不会执行它们；“暂停”“续训”“采集”一类命令会改变运行状态，应按你的实际目的选择执行。
+
+\begin{longtable}{P{46mm}P{105mm}}
+\toprule
+用途 & 位置与说明\\
+\midrule
+\endhead
+训练环境 & \path{.cache/microduck_train/venv}；通过只读路径复用已有Torch/CUDA，其余训练依赖在独立环境中安装\\
+基础训练权重 & \path{.cache/microduck_train/model}；固定官方原始权重，用于NF4加载和LoRA训练\\
+正式数据 & \path{experiments/microduck_tasks/outputs/training_dataset_final_20261114}；训练过程中不追加或改写\\
+正式训练产物 & \path{experiments/microduck_tasks/outputs/qlora_20261114}；日志、状态、适配器与检查点\\
+原有GGUF推理服务 & \path{.cache/microduck_vlm}；与QLoRA训练权重及输出分开\\
+\bottomrule
+\end{longtable}
+
+不要删除被训练环境通过路径复用的 \path{/home/luckysir/microduck/microduck_rl/.venv}。训练环境目录较小，不代表全部运行库都位于这个目录。源码、模型、环境、缓存和数据承担不同角色，不能仅按名称中带“cache”判断是否可以随时删除。
+
+\section{查看日志与实时状态}
+\begin{Verbatim}
+cd /home/luckysir/Strands_Robots
+tail -f experiments/microduck_tasks/outputs/qlora_20261114/train.log
+\end{Verbatim}
+按 \texttt{Ctrl+C} 退出的是日志查看。后台训练由另一个进程运行，关闭这个终端不等于停止训练。电脑仍需要保持开机、不休眠。
+
+另一个终端可以读取结构化状态：
+\begin{Verbatim}
+cd /home/luckysir/Strands_Robots
+python3 -m json.tool \
+  experiments/microduck_tasks/outputs/qlora_20261114/run_status.json
+nvidia-smi
+\end{Verbatim}
+\texttt{step}是优化更新次数，\texttt{micro\_cursor}是已处理样本游标。本轮正常情况下 \texttt{micro\_cursor = step * 4}。训练状态文件只在特定阶段或每次更新后写入；短时间没有变化不等于进程卡死。初始全量输入预检和生成评估可能较长。
+
+查看最近可恢复检查点时，读取指针而不是长期记住某一个编号：
+\begin{Verbatim}
+cat experiments/microduck_tasks/outputs/qlora_20261114/latest_checkpoint.json
+\end{Verbatim}
+系统只保留最近两个完整检查点，所以第10步目录在后续训练中可能被正常清理；本书中“已验证第10步”描述的是历史验证事件。
+
+\section{中途测试：当前已实现的是离线评测}
+本机6GB显卡在训练期间余量很小。现有 \texttt{--eval-only} 也会加载模型到GPU，因此应先让训练进程退出并释放显存，评测结束后再恢复。进程的 \texttt{SIGSTOP} 只是挂起，会保留显存，不能达到这个目的。
+
+下面是“明确选择现在测试时”使用的流程。它不会把未完成的梯度累计保存为完整更新。最新检查点之后尚未保存的更新，会在续训时重新计算。
+
+\subsection{第一步：确认有检查点，再停止对应训练进程}
+以下Python块检查运行身份后发出SIGINT，不使用宽泛的进程名批量结束程序。命令会等待目标进程退出；若提示还没有检查点，继续训练并稍后再试。
+
+\begin{Verbatim}
+cd /home/luckysir/Strands_Robots
+python3 - <<'PY'
+import json, os, pathlib, signal, time
+run = pathlib.Path(
+    "experiments/microduck_tasks/outputs/qlora_20261114"
+).resolve()
+latest = json.loads((run / "latest_checkpoint.json").read_text())
+if not pathlib.Path(latest["path"]).is_dir():
+    raise SystemExit("Checkpoint is not available; do not stop yet.")
+state = json.loads((run / "run_status.json").read_text())
+if state.get("status") != "running":
+    raise SystemExit("No running training declared; inspect status first.")
+pid = state["pid"]
+proc = pathlib.Path(f"/proc/{pid}")
+argv = (proc / "cmdline").read_bytes().split(b"\0")
+module = b"experiments.microduck_tasks.train_vlm"
+if module not in argv or b"--output" not in argv:
+    raise SystemExit("PID is not the expected training process.")
+output = pathlib.Path(os.fsdecode(argv[argv.index(b"--output") + 1]))
+if output.resolve() != run:
+    raise SystemExit("Output directory mismatch; no signal sent.")
+os.kill(pid, signal.SIGINT)
+for _ in range(120):
+    if not proc.exists():
+        break
+    try:
+        if not (proc / "cmdline").read_bytes():
+            break
+    except FileNotFoundError:
+        break
+    time.sleep(0.5)
+else:
+    raise SystemExit("Process still exists; inspect before evaluation.")
+print("Stopped. Read latest_checkpoint.json before resuming.")
+PY
+\end{Verbatim}
+
+\subsection{第二步：读取最新检查点并评测}
+以下两组命令在同一个终端执行，保留 \texttt{task\_out} 和 \texttt{task\_ckpt} 变量。
+\begin{Verbatim}
+task_out=experiments/microduck_tasks/outputs/qlora_20261114
+task_ckpt=$(python3 -c \
+  'import json,sys; print(json.load(open(sys.argv[1]))["path"])' \
+  "$task_out/latest_checkpoint.json")
+
+.cache/microduck_train/venv/bin/python \
+  -m experiments.microduck_tasks.train_vlm \
+  --dataset experiments/microduck_tasks/outputs/training_dataset_final_20261114 \
+  --output "$task_out" --resume "$task_ckpt" \
+  --epochs 1 --max-steps 10000 --grad-accum 4 \
+  --eval-only --eval-limit 32 --predict-limit 24
+\end{Verbatim}
+
+这个命令会先重新检查输入，然后使用同一验证子集计算损失并自行生成24条输出。当前代码要求恢复检查点位于同一输出目录，且关键参数与原训练一致；尤其 \texttt{--max-steps 10000} 不要遗漏，训练脚本的默认值1000与本轮配置不同。
+
+\begin{Verbatim}
+cat "$task_out/evaluation.json"
+head -n 3 "$task_out/predictions.jsonl"
+\end{Verbatim}
+
+\texttt{evaluation.json} 保存统计，\texttt{predictions.jsonl} 保存每个目标和原始预测。评测不会改写已保存的适配器、优化器或最新检查点指针，但会更新运行状态，并覆盖同名评测输出，也会重写预检、模型摘要和提示词文件，追加恢复调用记录。若要比较多个检查点，可将本次两个结果文件复制到按检查点编号命名的独立目录。评测后的 \texttt{completed / evaluation} 表示评测完成，不表示整轮训练完成。
+
+\subsection{第三步：恢复后台训练}
+\begin{Verbatim}
+.cache/microduck_train/venv/bin/python \
+  -m experiments.microduck_tasks.launch_training \
+  --dataset experiments/microduck_tasks/outputs/training_dataset_final_20261114 \
+  --output "$task_out" --resume "$task_ckpt" \
+  --epochs 1 --max-steps 10000 --grad-accum 4 \
+  --eval-every 100 --eval-limit 32 --predict-limit 24 \
+  --save-every 50
+\end{Verbatim}
+恢复会加载适配器、优化器、学习率调度器、随机数状态和样本游标，不是只读取LoRA权重后从头计数。启动器写入新的PID与启动记录。此后停止训练时应重新读取状态，不能继续使用旧PID。
+
+\section{重新采集与导出的命令参考}
+本轮数据已经采集并冻结，下面用于理解和复现实验。需要新实验时使用新目录，不能把训练正在读取的正式数据集作为追加输出目标。
+
+\begin{Verbatim}
+cd /home/luckysir/Strands_Robots
+task_sim_python=/home/luckysir/microduck/microduck_rl/.venv/bin/python
+
+"$task_sim_python" -m experiments.microduck_tasks.collect_training \
+  --output experiments/microduck_tasks/outputs/new_random_collection \
+  --workers 3
+
+"$task_sim_python" -m experiments.microduck_tasks.collect_near_training \
+  --output experiments/microduck_tasks/outputs/new_near_collection
+
+"$task_sim_python" -m experiments.microduck_tasks.collect_direct_reset_training \
+  --output experiments/microduck_tasks/outputs/new_direct_collection \
+  --workers 3
+
+"$task_sim_python" -m experiments.microduck_tasks.training_data \
+  --input experiments/microduck_tasks/outputs/new_random_collection \
+  --input experiments/microduck_tasks/outputs/new_near_collection \
+  --input experiments/microduck_tasks/outputs/new_direct_collection \
+  --output experiments/microduck_tasks/outputs/new_training_dataset
+\end{Verbatim}
+
+采集器中的种子计划是固定的。仅仅更换目录名，会重现同一批场景，而不会自动增加独立场景种子。要扩充新数据，应先制定新种子与划分计划，再审查采集器对应参数或计划定义。采集、渲染和VLM训练共同占用资源，训练进行时不应直接照抄这些命令启动第二批工作。
+
+\section{正式启动命令与实际总步数}
+新实验完成数据验收后，可用独立输出目录启动。下列命令中的目录必须是新实验真实生成并验收过的目录。
+\begin{Verbatim}
+.cache/microduck_train/venv/bin/python \
+  -m experiments.microduck_tasks.launch_training \
+  --dataset experiments/microduck_tasks/outputs/new_training_dataset \
+  --output experiments/microduck_tasks/outputs/new_qlora_run \
+  --epochs 1 --max-steps 10000 --grad-accum 4 \
+  --eval-every 100 --eval-limit 32 --predict-limit 24 \
+  --save-every 50
+\end{Verbatim}
+\texttt{max-steps}是上限。本轮9500条样本、梯度累计4、一个epoch，实际只运行2375次更新。上限设为10000不会把这一轮强行重复到10000步。
+
+\section{原有交互仿真能运行什么}
+原有规则路径：
+\begin{Verbatim}
+./experiments/microduck_tasks/run.sh --interactive --seed 0
+\end{Verbatim}
+
+原有基础VLM路径，需要先单独启动GGUF服务：
+\begin{Verbatim}
+# Terminal A: original GGUF model service
+./experiments/microduck_tasks/serve_vlm.sh
+
+# Terminal B: original pretrained VLM in simulation
+./experiments/microduck_tasks/run.sh \
+  --backend vlm --interactive --seed 0 --vlm-max-steps 120
+\end{Verbatim}
+这些命令按现有代码运行基础模型。模型服务也会占用GPU，因此训练未退出时不要同时启动。交互界面默认有仿真窗口；加 \texttt{--no-viewer} 可关闭窗口。文字命令仍通过终端输入，本轮没有实现语音识别或语音合成接口。
+
+\section{把训练后的LoRA真正接回机器人，还差什么}
+LoRA适配器保存的是新增权重，单独它不具备完整Qwen模型能力。运行时必须与正确的基础模型、对应processor、提示词版本和输出接口组合。当前 \texttt{serve\_vlm.sh} 只加载原始GGUF，不会监视训练目录并自动换模型。
+
+后续可实现两条部署路径：
+\begin{enumerate}
+\item \textbf{Transformers + PEFT服务}：加载同一基础模型与选定LoRA，在本地HTTP服务中处理相同的图像和消息，返回当前客户端要求的响应。先测试单样本输出、延迟与显存，再运行仿真。这条路径保留现有训练权重格式，但服务代码尚未接通。
+\item \textbf{合并与转换路径}：在合适精度的基础权重上应用适配器，再按目标推理引擎支持的Qwen3-VL流程转换和量化。必须分别处理语言与视觉组件，并复核转换前后输出；不能把NF4训练配置与GGUF文件格式当成同一种东西，也不能假设所有LoRA直接加载方式都已验证。
+\end{enumerate}
+
+选择最终还是最佳验证损失适配器，同样需要闭环评测支持。先让最基本的“看图回答”“单次前进后结束”通过，再验证已对准踢球和随机搜索踢球。测试记录应标注基础模型revision、适配器检查点、提示词版本、是否RGB-D辅助，以及实际使用的服务后端。
+
+\section{训练结束后应保留哪些文件}
+用于继续训练，需要基础模型、数据及对应图片、完整检查点中的适配器与训练状态，以及环境和配置。用于推理，至少需要兼容的基础权重、选定适配器、processor、提示词和接口定义。用于复现实验，还应保留采集计划、数据清单、指标、失败案例和独立验收记录。
+
+环境与缓存是否可删要根据引用关系判断。例如当前独立训练环境复用了原microduck环境，后者不能在训练期间当成闲置环境删除。检查点滚动保留策略已控制一部分磁盘增长；不要在进程写入时手动移动或删除当前检查点目录。

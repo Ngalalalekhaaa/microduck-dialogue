@@ -1,0 +1,22 @@
+{
+  "step": 101,
+  "micro_cursor": 404,
+  "best_val_loss": 0.1686652238422539,
+  "total_steps": 2375,
+  "run_config_digest": "28926b7dc538f7e85e8bd8ab28517563264ff8bd94cce4f48a229df49ca326ea",
+  "status": "running",
+  "phase": "training",
+  "pid": 1610354,
+  "elapsed_s": 2302.512138457998,
+  "last_metric": {
+    "step": 101,
+    "micro_cursor": 404,
+    "train_loss": 0.04940941650420427,
+    "sequence_tokens_max": 2519,
+    "grad_norm": 0.8345263600349426,
+    "learning_rate": 8.559322033898305e-05,
+    "elapsed_s": 2302.5117414289853,
+    "peak_allocated_mib": 3409.91796875,
+    "peak_reserved_mib": 4318.0
+  }
+}

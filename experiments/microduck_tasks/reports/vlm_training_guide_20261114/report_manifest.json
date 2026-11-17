@@ -1,0 +1,60 @@
+{
+  "pdf": "Microduck_VLM_从预训练到微调完整指南.pdf",
+  "pdf_sha256": "d40d14ca34280f663b238609ebe489759af2fcdc6517a28d3e41f481edb0a28f",
+  "snapshot": {
+    "captured_at": "2026-11-14T17:14:02.573085+08:00",
+    "training_run": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/qlora_20261114"
+  },
+  "chapters": [
+    {
+      "name": "00_overview.tex",
+      "sha256": "d579400b45210da01a5d4ecacb426d03ee69325ff3028dcd81bdbf7175540702"
+    },
+    {
+      "name": "01_pretraining.tex",
+      "sha256": "3a3a135a36b97850c590d9acc057e4767e29d8b7012220e31c9f933af98939b6"
+    },
+    {
+      "name": "02_data.tex",
+      "sha256": "b5c6aef73d543ca43c50a2bc663797ba61275bb7971de6bfcd085a5f8f26258b"
+    },
+    {
+      "name": "03_runtime.tex",
+      "sha256": "7ad68b2bbe2c85bfc154d96a06fd746423b40e7b3f17a9d58da21a288bfa8d35"
+    },
+    {
+      "name": "04_training.tex",
+      "sha256": "cf10e6ac6b39855ce4e226985bcd1ce0a7be914bfaa6f2ce7c5dbfe91b720bec"
+    },
+    {
+      "name": "05_methods.tex",
+      "sha256": "e737e84c5cc56b1713eb8e8fb9c39079a9f1b320466c829b17e90298970dcb1b"
+    },
+    {
+      "name": "06_evaluation.tex",
+      "sha256": "dd50a5ad5ff450c0e7aa957606fb275bcb902e5523c67b40f462a51b7139c4a1"
+    },
+    {
+      "name": "07_operations.tex",
+      "sha256": "f49d3c62369278d1a4eaedce1235a377796a7788807c18ee394c2006299394be"
+    },
+    {
+      "name": "08_faq.tex",
+      "sha256": "440aa3e90d020f9e9734f42e16e00021a9b4602e419696ce348bd264b7c0249a"
+    },
+    {
+      "name": "09_inventory.tex",
+      "sha256": "8dfc7503271ef1d2a9de1b78966ca06e414a4ea68c17355e64112c7362ab0cfa"
+    },
+    {
+      "name": "guide.tex",
+      "sha256": "934fd6124c8f3321c679296c074828c9e3a485b98605b33c8143fbd0a72538a9"
+    },
+    {
+      "name": "references.tex",
+      "sha256": "5bc18096b60352f88f46105cdcd930af1f97585b347eb1b6090379424ec2a4d3"
+    }
+  ],
+  "training_process_modified": false,
+  "source_of_charts": "snapshot_metrics.jsonl and snapshot_baseline_evaluation.json"
+}

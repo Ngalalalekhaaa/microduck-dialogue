@@ -1,0 +1,456 @@
+{
+  "experiment": "encoder_relative_foot_reach_with_fresh_rgb_tof_arc_recovery",
+  "version": "v6",
+  "date": "2026-11-16",
+  "hardware": false,
+  "classification": "small_development_regression_suite_not_general_success_probability",
+  "total_episodes": 16,
+  "successes": 16,
+  "source_changed": false,
+  "cases": [
+    {
+      "suite": "foot_reach_acceptance_v6",
+      "name": "center",
+      "x": 0.4,
+      "y": 0.02,
+      "seed": 17,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 13.480000000000707,
+      "wall_seconds": 18.618434249947313,
+      "decisions": 36,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.08204675389879193,
+        0.005440684377090195,
+        0.03339007657445772
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_acceptance_v6/center"
+    },
+    {
+      "suite": "foot_reach_acceptance_v6",
+      "name": "left",
+      "x": 0.45,
+      "y": 0.08,
+      "seed": 18,
+      "success": true,
+      "foot": "left",
+      "simulation_seconds": 17.400000000000823,
+      "wall_seconds": 17.147777108009905,
+      "decisions": 48,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.09912548465330136,
+        -0.012101927341471128,
+        0.03530592766251179
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_acceptance_v6/left"
+    },
+    {
+      "suite": "foot_reach_acceptance_v6",
+      "name": "right",
+      "x": 0.5,
+      "y": -0.08,
+      "seed": 19,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 20.140000000000278,
+      "wall_seconds": 21.280932266963646,
+      "decisions": 57,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.0916376005660681,
+        0.0058918675340677885,
+        0.03468723023768468
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_acceptance_v6/right"
+    },
+    {
+      "suite": "foot_reach_acceptance_v6",
+      "name": "far",
+      "x": 0.6,
+      "y": 0.0,
+      "seed": 20,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 17.680000000000767,
+      "wall_seconds": 16.763326446991414,
+      "decisions": 53,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.07849187061604719,
+        0.023136947822502692,
+        0.03390585739558948
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_acceptance_v6/far"
+    },
+    {
+      "suite": "foot_reach_noise5mm_drop10_v6",
+      "name": "center",
+      "x": 0.4,
+      "y": 0.02,
+      "seed": 17,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 19.32000000000044,
+      "wall_seconds": 25.581525249988772,
+      "decisions": 53,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.09672319145873098,
+        0.002319697035597993,
+        0.035427976933921405
+      ],
+      "rgb_tof_arc_recovered_frames": 2,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_noise5mm_drop10_v6/center"
+    },
+    {
+      "suite": "foot_reach_noise5mm_drop10_v6",
+      "name": "left",
+      "x": 0.45,
+      "y": 0.08,
+      "seed": 18,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 13.88000000000077,
+      "wall_seconds": 12.995930861041415,
+      "decisions": 38,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.08811223935412982,
+        -0.004995656727087541,
+        0.036527959024485926
+      ],
+      "rgb_tof_arc_recovered_frames": 1,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_noise5mm_drop10_v6/left"
+    },
+    {
+      "suite": "foot_reach_noise5mm_drop10_v6",
+      "name": "right",
+      "x": 0.5,
+      "y": -0.08,
+      "seed": 19,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 12.940000000000623,
+      "wall_seconds": 12.11027634801576,
+      "decisions": 36,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.100844763002418,
+        -0.011614322936001207,
+        0.03605817355392847
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_noise5mm_drop10_v6/right"
+    },
+    {
+      "suite": "foot_reach_noise5mm_drop10_v6",
+      "name": "far",
+      "x": 0.6,
+      "y": 0.0,
+      "seed": 20,
+      "success": true,
+      "foot": "left",
+      "simulation_seconds": 14.620000000000886,
+      "wall_seconds": 13.882913468987681,
+      "decisions": 44,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.10179419278213328,
+        -0.021446367409565587,
+        0.0337337985035305
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_noise5mm_drop10_v6/far"
+    },
+    {
+      "suite": "foot_reach_extension_v6",
+      "name": "near_left",
+      "x": 0.35,
+      "y": 0.12,
+      "seed": 21,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 13.320000000000682,
+      "wall_seconds": 18.969047982012853,
+      "decisions": 38,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.07673434258605918,
+        -0.013959428794900985,
+        0.03691427580049152
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/near_left"
+    },
+    {
+      "suite": "foot_reach_extension_v6",
+      "name": "near_right",
+      "x": 0.35,
+      "y": -0.12,
+      "seed": 22,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 11.760000000000439,
+      "wall_seconds": 10.96092039096402,
+      "decisions": 32,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.09388860591059073,
+        0.007418369625356044,
+        0.03557848795671885
+      ],
+      "rgb_tof_arc_recovered_frames": 3,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/near_right"
+    },
+    {
+      "suite": "foot_reach_extension_v6",
+      "name": "far_left",
+      "x": 0.55,
+      "y": 0.12,
+      "seed": 23,
+      "success": true,
+      "foot": "left",
+      "simulation_seconds": 13.960000000000782,
+      "wall_seconds": 13.56038780300878,
+      "decisions": 41,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.09783322519636488,
+        -0.03868965093880826,
+        0.0328156611979693
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/far_left"
+    },
+    {
+      "suite": "foot_reach_extension_v6",
+      "name": "far_right",
+      "x": 0.55,
+      "y": -0.12,
+      "seed": 24,
+      "success": true,
+      "foot": "left",
+      "simulation_seconds": 16.340000000001034,
+      "wall_seconds": 16.155842676002067,
+      "decisions": 48,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.07042374072854192,
+        -0.04178561345024394,
+        0.02922421058139423
+      ],
+      "rgb_tof_arc_recovered_frames": 4,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/far_right"
+    },
+    {
+      "suite": "foot_reach_extension_v6",
+      "name": "near_center",
+      "x": 0.3,
+      "y": 0,
+      "seed": 25,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 11.520000000000401,
+      "wall_seconds": 10.037423362024128,
+      "decisions": 30,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.09913817928114824,
+        0.009270834926649525,
+        0.03446653013097056
+      ],
+      "rgb_tof_arc_recovered_frames": 1,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/near_center"
+    },
+    {
+      "suite": "foot_reach_extension_v6",
+      "name": "far_center",
+      "x": 0.7,
+      "y": 0,
+      "seed": 26,
+      "success": true,
+      "foot": "left",
+      "simulation_seconds": 24.239999999999462,
+      "wall_seconds": 16.469056824978907,
+      "decisions": 60,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.08771190447165327,
+        -0.035814302634304636,
+        0.03208153439095219
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/far_center"
+    },
+    {
+      "suite": "foot_reach_extension_v6",
+      "name": "small_right",
+      "x": 0.4,
+      "y": -0.03,
+      "seed": 27,
+      "success": true,
+      "foot": "right",
+      "simulation_seconds": 13.680000000000739,
+      "wall_seconds": 11.789216697041411,
+      "decisions": 36,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.08878571682033798,
+        0.04246838889146639,
+        0.0327343592013087
+      ],
+      "rgb_tof_arc_recovered_frames": 4,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/small_right"
+    },
+    {
+      "suite": "foot_reach_extension_v6",
+      "name": "small_left",
+      "x": 0.6,
+      "y": 0.04,
+      "seed": 28,
+      "success": true,
+      "foot": "left",
+      "simulation_seconds": 12.300000000000523,
+      "wall_seconds": 10.137883096002042,
+      "decisions": 35,
+      "foot_contact": true,
+      "early_contacts": 0,
+      "non_target_contacts": 0,
+      "recovered_standing": true,
+      "kick_ball_foot_m": [
+        0.10283122241907452,
+        -0.009990179708367335,
+        0.03408668815165233
+      ],
+      "rgb_tof_arc_recovered_frames": 0,
+      "output": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/small_left"
+    }
+  ],
+  "suites": [
+    {
+      "name": "foot_reach_acceptance_v6",
+      "total": 4,
+      "successes": 4,
+      "noise_m": 0.002,
+      "dropout": 0.0,
+      "source_changed": false,
+      "summary": "experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_acceptance_v6/summary.json"
+    },
+    {
+      "name": "foot_reach_noise5mm_drop10_v6",
+      "total": 4,
+      "successes": 4,
+      "noise_m": 0.005,
+      "dropout": 0.1,
+      "source_changed": false,
+      "summary": "experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_noise5mm_drop10_v6/summary.json"
+    },
+    {
+      "name": "foot_reach_extension_v6",
+      "total": 8,
+      "successes": 8,
+      "noise_m": 0.002,
+      "dropout": 0.0,
+      "source_changed": false,
+      "summary": "experiments/microduck_tasks/outputs/rgb_tof_20261116/foot_reach_extension_v6/summary.json"
+    }
+  ],
+  "prior_results": {
+    "v5": {
+      "baseline": {
+        "total": 4,
+        "successes": 4,
+        "source_changed": false
+      },
+      "noise": {
+        "total": 4,
+        "successes": 3,
+        "source_changed": false
+      },
+      "extension": {
+        "total": 8,
+        "successes": 5,
+        "source_changed": false
+      }
+    }
+  },
+  "calibration": {
+    "type": "fixed_action_truth_placement_separate_from_closed_loop",
+    "total": 18,
+    "strict_successes": 13,
+    "foot_contacts": 15
+  },
+  "verification": {
+    "targeted_pytest_passed": 235,
+    "ruff_files_passed": 28
+  },
+  "controller_inputs": [
+    "RGB",
+    "64 radial ToF ranges",
+    "IMU",
+    "14 joint encoders"
+  ],
+  "learned_models": "existing CPU ONNX walking and kicks; no training in this change",
+  "limitations": [
+    "provisional camera and ToF mounting/model",
+    "known 35 mm sphere radius",
+    "flat controlled scene and colour-based recognition",
+    "ideal encoder/IMU errors and lockstep latency",
+    "head return uses <=1.4s range memory plus current RGB",
+    "development cases re-used after failure analysis; not a fresh blind test"
+  ],
+  "unique_initial_positions": 12,
+  "mean_simulation_seconds": 15.411250000000585,
+  "episodes_using_fresh_arc_recovery": 6
+}

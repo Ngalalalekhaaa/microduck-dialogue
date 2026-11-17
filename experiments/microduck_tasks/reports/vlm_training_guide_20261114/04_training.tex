@@ -1,0 +1,149 @@
+\chapter{本次 QLoRA：一条示范怎样变成一次参数更新}
+
+\begin{notebox}{本章描述的是正在运行的实验}
+统一状态快照为北京时间 2026 年 11 月 14 日 17:14:02。正式训练已到第 101/2375 个优化步，最新完整检查点为第 100 步。这里的“已经训练”表示参数确实发生更新，不表示训练已结束，更不表示小鸭子已通过任务验收。以下参数、张量尺寸和指标以本地代码、配置与日志为依据。
+\end{notebox}
+
+\section{先确定正在训练什么}
+
+底座是官方 \texttt{Qwen/Qwen3-VL-2B-Instruct}，固定模型版本为：
+\begin{Verbatim}[breaklines=true,fontsize=\small]
+89644892e4d85e24eaac8bacfd4f463576704203
+\end{Verbatim}
+训练读取官方 \texttt{safetensors} 权重，不读取此前用于推理的 GGUF。原始底座不被覆盖；新学到的变化保存为独立 LoRA adapter。以后使用该 adapter，仍须同时使用匹配的底座、图像处理器、提示词和技能接口。
+
+当前做的是\textbf{监督微调（SFT）目标下的 QLoRA 参数更新}：输入真实示范中的画面、指令和允许状态，学习输出下一步技能 JSON。它不训练底层走路、平衡或踢腿控制器，也不向关节直接输出力矩。LoRA 的基本思想是在冻结权重旁增加低秩更新；QLoRA 进一步让被冻结的底座以低位宽保存，再训练这些小矩阵。\cite{lora-paper,qlora-paper}
+
+本项目不是“所有东西都变成四位”。语言骨干中可量化的线性层使用 NF4 四位权重，并启用 double quantization；计算采用 bfloat16。视觉编码器、视觉投影与输出词表层被排除在四位替换之外。准备训练时，冻结的非量化参数中，非归一化部分转回 bfloat16，归一化部分保留 float32。视觉部分全部冻结，语言层中加入的 LoRA 参数可训练。这样的配置符合 PEFT 支持的量化底座加适配器训练路径；本地使用普通 AdamW，并没有声称启用了原论文中的全部优化手段，例如分页优化器。\cite{peft-quantization}
+
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{6.8cm}@{}}
+\hline
+项目 & 本次设置 & 实际含义 \\
+\hline
+\endfirsthead
+\hline 项目 & 本次设置 & 实际含义 \\ \hline
+\endhead
+训练参数 & 8,716,288 个 & 只统计 \texttt{requires\_grad=True} 的参数，不是模型全部参数。\\
+LoRA 配置 & $r=8$，$\alpha=16$，dropout $=0.05$ & 低秩维度为 8；标准缩放 $\alpha/r=2$；训练时适配器输入使用 dropout。\\
+插入位置 & 28 个语言层中的七类线性层 & 注意力的 $q,k,v,o$ 投影，以及 MLP 的 gate、up、down 投影；不在视觉层训练 adapter。\\
+微批与累积 & microbatch $=1$，累积 4 次 & 同一时刻处理一条样本；累计四条的梯度后更新一次。\\
+优化器 & AdamW，目标学习率 $10^{-4}$ & weight decay 为 0.01；更新前将梯度范数裁剪到 1。\\
+学习率计划 & 118 步 warmup，之后 cosine & $\lfloor2375\times0.05\rfloor=118$；并非从第一步就使用最大学习率。\\
+训练长度 & 1 epoch，9500 条训练样本 & $9500/4=2375$ 个优化步；\texttt{max-steps=10000} 只是上限，不会额外重复至一万步。\\
+\hline
+\end{longtable}
+
+例如一个原线性映射为 $h=W_0x$。本次通过下面的形式改变行为：
+\[
+h=W_0x+\frac{\alpha}{r}BAx,
+\qquad A\in\mathbb{R}^{r\times d_{\mathrm{in}}},\quad
+B\in\mathbb{R}^{d_{\mathrm{out}}\times r}.
+\]
+优化器更新 $A,B$，冻结的 $W_0$ 不接收权重更新。参数变少能减少梯度和优化器状态的存储，但信息仍要穿过完整骨干。因此“只训练八百多万参数”不等于只运行一个八百万参数的小模型。
+
+\section{一条训练样本进入模型之前}
+
+每条样本包含 front、near 两张同一时刻的 RGB 图像、用户原始指令、允许的传感状态和历史反馈，以及教师给出的目标 JSON。RGB-D 检测结果以辅助文本状态输入；它不是第三张图，也不是直接把仿真世界的球坐标交给模型。模型可见上下文不含样本的目标答案、教师动作标签或任务编号。时间字段是当前任务开始后的相对时间。
+
+图像处理器设置 \texttt{min\_pixels=65536}、\texttt{max\_pixels=98304}。这些数限制像素预算，不是视觉 token 数，也不是保证图像固定为某个尺寸。预处理还会按照模型的 patch 和合并因子调整图像尺寸。本次完整训练加验证数据预检得到：最短 1415 token，中位数 2356，最长 2683；系统提示词自身为 1085 token。设置的 4096 是拒绝超长输入的上限；程序没有偷偷截掉历史或任一相机。
+
+为了将抽象过程具体化，下面列出最长训练样本经过 CPU 预处理后的真实尺寸。它的目标动作是向右移动 0.10 秒，目标颜色为蓝色。
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{6.8cm}@{}}
+\hline
+张量 & 尺寸或数值 & 怎样理解 \\
+\hline
+\endfirsthead
+\hline 张量 & 尺寸或数值 & 怎样理解 \\ \hline
+\endhead
+\texttt{input\_ids} & $[1,2683]$ & 一条完整聊天序列的 token 编号，含目标 JSON。\\
+{\small\texttt{attention\_mask}} & $[1,2683]$ & 本例没有批内 padding；它不是“哪些 token 计入损失”的掩码。\\
+\texttt{pixel\_values} & $[640,1536]$ & 两张图合计 640 个视觉 patch；每个 patch 是处理器展开后的数值，不是 640 张图片。\\
+{\small\texttt{image\_grid\_thw}} & $[2,3]$，两行均为 $[1,16,20]$ & 分别记录两幅图的时间、高、宽网格；空间合并后每张图占 80 个视觉位置。\\
+输入与目标边界 & 输入 2642 token，目标 41 token & 模型必须理解完整输入，但只对随后 41 个助手目标 token 计算交叉熵。\\
+\hline
+\end{longtable}
+
+原始两幅 320$\times$240 图像在这一例中调整为 320$\times$256；每张有 $16\times20=320$ 个 patch，合并后为 $320/4=80$ 个视觉位置。语言隐藏维度为 2048，词表大小为 151936。这些维度说明图像和文字最终如何共同进入语言骨干；它们不代表额外增加了一台相机。
+
+当前 \texttt{encode()} 为了严格核对助手边界，对“完整序列”和“只有输入的序列”分别调用一次 processor。因此 CPU 图像预处理与分词会重复；这不等于在同一次训练前向中把视觉编码器运行两遍。冻结视觉特征目前也没有离线缓存，每条样本仍会经过视觉前向。
+
+\section{为什么训练时把正确答案也放进输入}
+
+这是自回归监督训练的 teacher forcing。假设目标 JSON 被分词为 $y_1,y_2,\ldots,y_T$，训练时同时提供完整序列，但通过因果注意力约束，预测 $y_t$ 时只能看到原始输入和 $y_1,\ldots,y_{t-1}$，不能看到当前位置和未来的正确 token。
+
+例如模型预测 \texttt{move\_right} 时，允许使用前面已经给定的 JSON 键名；它不能直接读取正在预测的答案。对第一枚助手 token，则使用输入末尾位置产生的 logits。推理时没有正确答案可供拼接，模型要逐个使用自己已生成的 token，因此训练损失下降与自由生成正确率并不等价。
+
+本地实现采用显式因果移位。设输入长度为 $P$，完整长度为 $L$，取预测位置 $P-1$ 至 $L-2$，对应标签位置 $P$ 至 $L-1$。本例 $P=2642,L=2683$，所以预测位置为 2641 至 2681，标签位置为 2642 至 2682，共 41 个。
+
+\texttt{logits\_to\_keep} 只要求词表输出层计算这些位置，得到约 $[1,41,151936]$ 的 logits。它\textbf{没有删掉前面 2642 个输入 token 的注意力上下文}。若在所有位置都构建词表 logits，中间张量会大得多；这是本次能在小显存上运行的一个关键实现选择。
+
+每条样本的损失是：
+\[
+\ell_i=-\frac{1}{T_i}\sum_{t=1}^{T_i}
+\log p_\theta(y_{i,t}\mid x_i,y_{i,<t}).
+\]
+这里 $x_i$ 包括图像、指令和状态；$T_i$ 是该样本被监督的助手 token 数，包括 JSON 内容及相应结束 token。输入提示词自身不直接计入交叉熵，\texttt{reply} 文本和 JSON 标点却会计入，所以低 loss 可能部分来自学会固定格式。它不是“踢球距离的误差”，也没有直接奖励球被踢远。
+
+该 selected-logits 实现曾用小型模型在 CPU 上对照标准 masked-label loss：损失差约 $4.77\times10^{-7}$，梯度最大差约 $5.96\times10^{-8}$；另检查了改变未来标签不影响更早预测。它验证损失实现的对应关系，不验证机器人能力。
+
+\section{四条样本怎样合成一次更新}
+
+程序依次处理四条样本，每条执行 \texttt{(loss / 4).backward()}，梯度累加在同一套 LoRA 参数上。四次反向传播完成后，才执行梯度裁剪、AdamW 更新、学习率调度，并清空梯度。
+\[
+\mathcal{L}=\frac{\ell_1+\ell_2+\ell_3+\ell_4}{4},
+\qquad g=\frac{1}{4}\sum_{i=1}^{4}\nabla_\theta\ell_i.
+\]
+日志中的 \texttt{train\_loss} 也是这四个样本损失的平均。每条先做 token 平均，因此不同长度的样本仍然等权；它不等于将四条的全部 token 混在一起后统一平均。若最后只剩不足四条，程序使用实际剩余条数归一化。本次 9500 能被 4 整除，没有最后一个不完整批次。
+
+“有效 batch 为 4”说的是更新所汇总的样本量。当前只有一个训练进程、一块 GPU，微批大小为 1；不是四个样本并行，也不是四块 GPU。CPU 的六个计算线程不改变这个事实。GPU 内部仍会并行处理矩阵和同一序列中的位置。
+
+\section{验证、保存与恢复分别证明什么}
+
+训练前，对固定 32 条验证样本计算 teacher-forced loss；之后每 100 个优化步及末步重复验证。另在训练前和全部训练完成后，各对固定 24 条验证样本进行自由生成，最长新增 192 token，不强制 JSON 语法。这 24 条按照九种技能和 answer、clarify、finish 共 12 类轮流抽取，每类两条；它不是完整 1299 条验证集，更不是 1135 条测试集。
+
+初始量化底座的结果如下。分母统一为全部 24 条，解析失败也算错；并不是只在合法 JSON 中计算准确率。
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{6.8cm}@{}}
+\hline 指标 & 初始结果 & 需要注意 \\
+\hline
+JSON 合法 & $20/24=83.3\%$ & 满足解析器与字段约束，不表示动作正确。\\
+type 正确 & $18/24=75.0\%$ & 区分动作、回答、澄清和结束。\\
+skill 正确 & $7/24=29.2\%$ & 分母含非动作样本的 null，不能直接称为九技能准确率。\\
+颜色正确 & $17/24=70.8\%$ & 包括 null；仍需另看红黄蓝各类。\\
+时长精确一致 & $9/24=37.5\%$ & 包括非动作的零时长；数值近似但不相同也算错。\\
+四字段联合正确 & $6/24=25.0\%$ & 同时比较 type、skill、颜色和时长；不评价 reply 语义。\\
+\hline
+\end{longtable}
+
+固定 32 条验证样本的平均 loss 从初始 1.01327 降到第 100 步的 0.16867，这是快照中已观察到的进展。第 100 步没有运行新的 24 条自由生成；因此不能据此写出“微调后联合正确率”。更不能从单步标签匹配推出转身搜索、靠近、对齐、踢球的整段任务成功率。
+
+检查点在第 10 步、之后每 50 步和最终步保存。每个完整检查点含 adapter、优化器状态、调度器状态、CPU/CUDA/Python 随机数状态、数据游标和配置指纹。目录先写入唯一临时位置，再原子发布；只保留最近两个完整检查点。\texttt{best\_adapter} 按验证 loss 单独保留，最终 adapter 在正常结束时保存。
+
+恢复会核对数据、提示词、学习率、累积数、训练长度等参数，并从确定的数据顺序和已保存游标继续。若中断发生在两次保存之间，那部分更新需重算；SIGINT 不会把半个累积批次冒充完整检查点。恢复能力也不等于保证所有 CUDA 运算逐比特相同。
+
+\section{这台电脑为什么约需十几个小时}
+
+已测约 22 秒完成四条样本的一次更新，即约 5.5 秒/样本。9500 条的纯训练估计约 14.6 小时，加上验证和生成，首轮估计 15--17 小时；这是当时吞吐的估算，不是完成时间承诺。主要明确存在的工作量包括完整骨干计算、双图视觉前向、长上下文注意力、量化运算，以及为节省激活显存而进行的 gradient checkpointing 重算。
+
+本次正式运行已观察到 PyTorch 峰值 allocated 约 3409.9 MiB、reserved 4318 MiB，整卡占用约 5300 MiB（5.2 GiB）。allocated 是活跃张量使用量，reserved 还包含 PyTorch 缓存池，整卡统计另含 CUDA 上下文、桌面显示和其他驱动开销。不能用整卡占用直接推算“模型权重有多大”，也不能把空闲显存与模型文件大小直接比较。
+
+GPU 高利用率支持“GPU 端持续忙碌”的判断，但没有详细 profiler，就不能给算力、显存带宽和 CPU 处理分别标出准确百分比。四位权重也不保证四倍加速；增加累积次数不会让每条样本少做前后向。更大微批能否装下、更换注意力实现能快多少，都尚未做对照实测。此前资源测试只证明双图、最长上下文和优化器能在 6 GB 机器上运行；它不替代任务评估。
+
+\section{本地证据在哪里}
+
+以下路径均相对于 \texttt{/home/luckysir/Strands\_Robots}。训练仍在继续，实时文件会更新，文档状态以本章开头的快照为准。
+\begin{Verbatim}[breaklines=true,fontsize=\small]
+experiments/microduck_tasks/train_vlm.py
+experiments/microduck_tasks/setup_training.py
+experiments/microduck_tasks/launch_training.py
+experiments/microduck_tasks/training_requirements.txt
+.cache/microduck_train/model/
+experiments/microduck_tasks/outputs/training_dataset_final_20261114/
+experiments/microduck_tasks/outputs/qlora_20261114/training_config.json
+experiments/microduck_tasks/outputs/qlora_20261114/preflight.json
+experiments/microduck_tasks/outputs/qlora_20261114/metrics.jsonl
+experiments/microduck_tasks/outputs/qlora_20261114/baseline_evaluation.json
+experiments/microduck_tasks/outputs/qlora_20261114/latest_checkpoint.json
+experiments/microduck_tasks/outputs/qlora_20261114/startup_verification.json
+experiments/microduck_tasks/outputs/resource_verification_20261114/
+  resource_verification.json
+\end{Verbatim}

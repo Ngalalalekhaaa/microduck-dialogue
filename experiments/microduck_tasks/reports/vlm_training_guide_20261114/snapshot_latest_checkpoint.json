@@ -1,0 +1,8 @@
+{
+  "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/qlora_20261114/checkpoint-000100",
+  "step": 100,
+  "micro_cursor": 400,
+  "best_val_loss": 0.1686652238422539,
+  "total_steps": 2375,
+  "run_config_digest": "28926b7dc538f7e85e8bd8ab28517563264ff8bd94cce4f48a229df49ca326ea"
+}

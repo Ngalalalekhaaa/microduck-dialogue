@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="microduck-session" content="__SESSION_TOKEN__">
+  <title>MicroDuck · 仿真试验台</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><span class="brand-mark">M<span>·</span>D</span><div><h1>MicroDuck <span>仿真试验台</span></h1><p>观察动作，直接和小鸭对话</p></div></div>
+    <div class="header-meta"><span class="pill">本机仿真</span><span class="connection"><i id="connection-dot"></i><span id="connection">连接中</span></span></div>
+  </header>
+  <main class="workspace">
+    <section class="scene-panel" aria-label="实时仿真渲染">
+      <div class="section-heading"><div><span class="eyebrow">LIVE SIMULATION</span><h2>看看小鸭在做什么</h2></div><span class="pill light" id="clock">0.00 s</span></div>
+      <div class="world-view">
+        <img id="world" alt="MuJoCo 仿真实时外部视角" hidden>
+        <div class="loading" id="loading"><span class="spinner"></span><strong id="load-title">正在唤醒小鸭</strong><p id="load-detail">准备本地模型与仿真场景…</p></div>
+        <div class="view-tag">外部跟随视角</div>
+        <div class="scene-status"><span class="status-dot"></span><span id="scene-state">初始化中</span></div>
+      </div>
+      <div class="camera-row">
+        <figure><img id="front" alt="小鸭前视 RGB 相机" hidden><figcaption><span class="camera-dot"></span>前视 RGB <span>front</span></figcaption></figure>
+        <figure><img id="near" alt="仿真辅助近场 RGB 相机" hidden><figcaption><span class="camera-dot"></span>辅助近场相机 <span>near · 仿真</span></figcaption></figure>
+        <div class="telemetry"><div><span>身体倾角</span><strong id="tilt">—</strong></div><div><span>身体状态</span><strong id="stationary">—</strong></div><div><span>当前技能</span><strong id="skill">—</strong></div><p>模型思考时仿真时间暂停，画面会暂时保持。</p></div>
+      </div>
+      <div class="scene-footer"><span id="backend-label">Q1 · checkpoint 100</span><span>当前控制使用原有 RGB-D 执行桥</span></div>
+    </section>
+    <aside class="chat-panel" aria-label="中文聊天与任务控制">
+      <div class="chat-heading"><div><span class="eyebrow">TALK TO MICRODUCK</span><h2>和小鸭说句话</h2></div><span class="model-chip" id="model-chip">Q1</span></div>
+      <div class="model-note" id="model-note">Q1 生成任务计划；下方自然语言回复由程序模板提供，尚未训练自由聊天。</div>
+      <section class="queue-card" aria-label="任务队列">
+        <div class="queue-heading"><span id="execution-state">等待准备</span><span id="queue-count">0 / 15</span></div>
+        <p id="active-goal">暂无执行中的任务</p>
+        <p class="last-result" id="last-result" hidden></p>
+        <details id="queue-details"><summary>查看后续任务 <span id="pending-count">0</span></summary><ol id="pending-goals"></ol></details>
+        <div class="task-controls"><button id="pause" class="control" disabled>安全暂停</button><button id="resume" class="control" disabled>继续</button><button id="stop" class="control danger" title="立即取消当前任务并清空队列；需要动作收尾请用安全暂停" disabled>停止 / 取消</button></div>
+        <p class="pause-hint" id="pause-hint">暂停保留推理和任务，等待当前完整动作结束后挂起。</p>
+      </section>
+      <div id="messages" class="messages" role="log" aria-live="polite"><div class="welcome"><span class="welcome-monogram">MD</span><h3>从一句简单的指令开始</h3><p>试试点头、转身，或给小鸭安排一串任务。</p><div class="suggestions"><button data-prompt="点一下头">点一下头</button><button data-prompt="先点头，再向左转90度">先点头，再左转</button><button data-prompt="走到红球旁边">走到红球旁边</button><button data-prompt="你叫什么名字？">你叫什么名字？</button></div></div></div>
+      <div id="notice" class="notice" role="status" hidden></div>
+      <form id="chat-form" class="composer"><label class="sr-only" for="chat-input">输入中文指令或聊天内容</label><textarea id="chat-input" placeholder="输入中文，例如：先点头，再踢红球…" rows="2" maxlength="1000" disabled></textarea><div class="composer-bottom"><span>Enter 发送 · Shift + Enter 换行</span><button id="send" type="submit" disabled>发送 <span aria-hidden="true">↗</span></button></div></form>
+      <div class="chat-footer"><span>队列最多 15 项 · 中文输入法可用</span><button id="reset" disabled>重置场景</button></div>
+    </aside>
+  </main>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "source_repository": "https://github.com/strands-labs/robots",
+  "source_commit": "72fdf796ac15375ebc3b022740e7607fd1a3b004",
+  "publication_repository": "https://github.com/Ngalalalekhaaa/microduck-dialogue",
+  "source_files": 1180,
+  "source_bytes": 20988634,
+  "excluded_report_intermediates": [
+    "experiments/microduck_tasks/reports/vlm_training_guide_20261114/.matplotlib/fontlist-v390.json",
+    "experiments/microduck_tasks/reports/vlm_training_guide_20261114/build_pass_1.log",
+    "experiments/microduck_tasks/reports/vlm_training_guide_20261114/build_pass_2.log",
+    "experiments/microduck_tasks/reports/vlm_training_guide_20261114/build_pass_3.log",
+    "experiments/microduck_tasks/reports/vlm_training_guide_20261114/microduck_vlm_guide.aux",
+    "experiments/microduck_tasks/reports/vlm_training_guide_20261114/microduck_vlm_guide.log",
+    "experiments/microduck_tasks/reports/vlm_training_guide_20261114/microduck_vlm_guide.toc",
+    "experiments/microduck_tasks/reports/vlm_training_guide_20261114/text_bounds.html"
+  ],
+  "note": "Snapshot of tracked upstream files and non-ignored local experiments; runtime caches, raw sessions and model weights are not copied."
+}

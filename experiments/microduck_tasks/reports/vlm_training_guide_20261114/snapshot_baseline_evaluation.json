@@ -1,0 +1,102 @@
+{
+  "validation_loss": 1.0132740526460111,
+  "adapter_updates": 0,
+  "generation": {
+    "count": 24,
+    "selection": "deterministic_round_robin_skill_or_response_type",
+    "indices": [
+      1148,
+      991,
+      654,
+      1145,
+      647,
+      124,
+      161,
+      928,
+      151,
+      1139,
+      532,
+      494,
+      1157,
+      368,
+      809,
+      1125,
+      598,
+      1019,
+      497,
+      962,
+      677,
+      1164,
+      180,
+      1072
+    ],
+    "by_category": {
+      "answer": {
+        "count": 2,
+        "valid_json": 0,
+        "joint_correct": 0
+      },
+      "clarify": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 1
+      },
+      "finish": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 2
+      },
+      "kick_left": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 2
+      },
+      "kick_right": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 0
+      },
+      "move_backward": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 1
+      },
+      "move_forward": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 0
+      },
+      "move_left": {
+        "count": 2,
+        "valid_json": 1,
+        "joint_correct": 0
+      },
+      "move_right": {
+        "count": 2,
+        "valid_json": 1,
+        "joint_correct": 0
+      },
+      "stand": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 0
+      },
+      "turn_left": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 0
+      },
+      "turn_right": {
+        "count": 2,
+        "valid_json": 2,
+        "joint_correct": 0
+      }
+    },
+    "valid_json_rate": 0.8333333333333334,
+    "type_accuracy": 0.75,
+    "skill_accuracy": 0.2916666666666667,
+    "target_color_accuracy": 0.7083333333333334,
+    "seconds_accuracy": 0.375,
+    "joint_accuracy": 0.25
+  }
+}

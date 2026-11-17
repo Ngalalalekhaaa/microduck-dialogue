@@ -1,0 +1,49 @@
+{
+  "source": "frozen data_final/raw_train.jsonl",
+  "training_rows": 8196,
+  "decision_counts": {
+    "replace": 5685,
+    "respond": 1676,
+    "append": 124,
+    "clarify": 550,
+    "cancel": 96,
+    "decline": 23,
+    "pause": 21,
+    "resume": 21
+  },
+  "grounded_observation_lateral_y_by_color": {
+    "yellow": {
+      "-0.2": 24,
+      "0.0": 48
+    },
+    "blue": {
+      "0.0": 48,
+      "0.2": 24
+    },
+    "red": {
+      "-0.2": 72
+    }
+  },
+  "findings": [
+    "Training contains only 23 decline examples, about 0.28% of 8196 rows; environmental checks use four current utterance forms.",
+    "Observation answers use a narrow, color-correlated position distribution, which is consistent with the seen red-ball-direction error.",
+    "These are coverage/distribution findings, not controlled causal proof; no new training was started."
+  ],
+  "executor_feedback_coverage": {
+    "total": 100,
+    "last_result_goal_types": {
+      "kick": 100
+    },
+    "execution_states": {
+      "failed": 40,
+      "paused": 20,
+      "idle": 40
+    },
+    "pending_lengths": {
+      "0": 100
+    },
+    "active_non_null": 20,
+    "finding": "100条feedback只覆盖踢球结果，pending全部为空；没有自行动作结果，也没有running状态下前一步已完成且active已推进到下一步的中间反馈。真实闭环发现3条动作名称或完成时序错误，与这一覆盖缺口一致；尚未做修复后的因果对照。",
+    "runtime_source": "toy_session.py:460-476先记录last_result，再推进active，并将两者同时传入feedback；并非宿主把下一任务写成last_result。"
+  }
+}

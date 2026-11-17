@@ -1,0 +1,54 @@
+__pycache__
+*.bak
+*.pkl
+*.egg-info
+.venv
+build
+dist
+.strands_robots
+.coverage
+MUJOCO_LOG.TXT
+.coverage.*
+AGENTS.local.md
+site/
+
+# macOS Finder metadata
+.DS_Store
+.venv-docs/
+.mypy_cache/
+
+# The dashboard consent store (config_api.ENV_FILE, written by /api/consent): local state, never committed.
+.env
+
+# tool caches (playwright renders, scratch)
+.cache/
+
+# The standalone bundle (python -m strands_robots.dashboard.standalone): generated, never committed.
+strands_robots/dashboard/static/scenes/
+
+# The dashboard's browser engines are fetched on first use (strands_robots/dashboard/vendor.py), never committed.
+strands_robots/dashboard/static/vendor/*.wasm
+
+# Notebook GIFs and screenshots live in the `media` GitHub release (notebooks/README.md), not in git. Running a
+# notebook still writes them here.
+notebooks/media/**/*.gif
+notebooks/media/**/*.png
+notebooks/media/**/*.webp
+
+# Local experiment artifacts and credentials
+.env.*
+!.env.example
+checkpoints/
+*.safetensors
+*.pt
+*.webm
+*.mp4
+**/.matplotlib/
+experiments/**/reports/**/*.aux
+experiments/**/reports/**/*.toc
+experiments/**/reports/**/*.log
+experiments/**/reports/**/text_bounds.html
+
+.import_linter_cache/
+.ruff_cache/
+.pytest_cache/

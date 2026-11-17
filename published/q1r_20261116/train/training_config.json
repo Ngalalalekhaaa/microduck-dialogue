@@ -1,0 +1,43 @@
+{
+  "seed": 1611,
+  "samples": 8196,
+  "epochs": 2,
+  "batch_size": 1,
+  "gradient_accumulation": 16,
+  "optimizer_steps": 1026,
+  "total_microbatches": 16392,
+  "full_validation_steps": [
+    513,
+    1026
+  ],
+  "screen_step": 50,
+  "lr": 5e-05,
+  "warmup_updates": 20,
+  "weight_decay": 0.01,
+  "gradient_clip": 1.0,
+  "scheduler": "linear warmup then cosine to 5% of peak",
+  "checkpoint_interval": 50,
+  "maximum_sequence_length": 4096,
+  "padding_multiple": 1024,
+  "parent_checkpoint": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/staged_plan_20261116/q1/train1200/checkpoint_100",
+  "data_manifest_sha256": "74f7e038c3d84bd0783edeac80b012fce45c61259985f50edcae39133471fd46",
+  "prompt": {
+    "version": "microduck-q1r-dialogue-1",
+    "rules_sha256": "5dd36cab14612b72e9c8af106ee9f43dca7ccf1ff050eba4ccc07a10b94709f9",
+    "action_meanings_sha256": "24018870132cd1887d7ead85c1f0a34fe0870aacb8a510668254c8965fb7526f",
+    "output_fields": [
+      "decision",
+      "goals",
+      "reply"
+    ],
+    "images_passed_to_model": false,
+    "reply_source": "model_generation"
+  },
+  "initialization": "exact selected Q1 checkpoint_100 weights; new optimizer",
+  "loss": "all answer JSON+EOS token CE averaged per row, then over actual accumulation size",
+  "selection": "full held-out: false starts, validity, semantic plan, premature claims, reply presence, early step",
+  "screen_does_not_select": true,
+  "images_passed_to_model": false,
+  "blind_access": false,
+  "human_reviewed": false
+}

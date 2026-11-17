@@ -1,0 +1,119 @@
+{
+  "format_version": "microduck-skill-sft-1",
+  "sample_id": "episode_20261114_155725_49ca72f6:event_00002",
+  "episode_id": "episode_20261114_155725_49ca72f6",
+  "task_id": "task_001",
+  "scene_seed": 1000,
+  "images": {
+    "front": "images/episode_20261114_155725_49ca72f6/frame_00001_front.png",
+    "near": "images/episode_20261114_155725_49ca72f6/frame_00001_near.png"
+  },
+  "instruction": "现在能看到什么？",
+  "state": {
+    "yaw": 0.01637799793699108,
+    "stationary": true,
+    "tilt_deg": 1.429006536057384,
+    "sim_time_s": 0.0,
+    "detections_rgbd": [
+      {
+        "color": "red",
+        "center_body_m": [
+          0.36868426793870834,
+          0.27142049626170106,
+          -0.07312049012354821
+        ],
+        "pixel_uv": [
+          49.0,
+          121.0
+        ],
+        "pixels": 806,
+        "confidence": 0.8443489099395292,
+        "fit_residual_m": 0.0002316640128018082,
+        "camera": "front"
+      },
+      {
+        "color": "yellow",
+        "center_body_m": [
+          -0.13294333220607432,
+          -0.4203991327949289,
+          -0.08488881776169818
+        ],
+        "pixel_uv": [
+          315.0,
+          202.0
+        ],
+        "pixels": 226,
+        "confidence": 0.9173729320067074,
+        "fit_residual_m": 0.00012073768331829784,
+        "camera": "near"
+      }
+    ]
+  },
+  "context": {
+    "previous_action": null,
+    "previous_feedback": "",
+    "history": [],
+    "step": 0
+  },
+  "target": {
+    "type": "answer",
+    "skill": null,
+    "seconds": 0.0,
+    "target_color": null,
+    "reply": "我现在看到左前方有红球，右后方有黄球。"
+  },
+  "label": {
+    "type": "answer",
+    "skill": null,
+    "seconds": 0.0,
+    "target_color": null,
+    "reply": "我现在看到左前方有红球，右后方有黄球。"
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You control an HD1910 Microduck SIMULATION by selecting ONE next skill.\nUse the current named RGB camera images, the user's ORIGINAL instruction, allowed sensor state,\nand previous execution feedback. Choose the skill yourself; no rule planner supplies a choice.\nfront looks forward/down; near is a virtual camera looking down/back at the feet. Both images\nbelong to this same instant. A missing ball may be outside the views; never invent its location.\nState detections_rgbd, when supplied, are auxiliary color/depth measurements, NOT your detections\nand NOT simulator object coordinates. With no detections, reason from RGB but acknowledge uncertainty.\nBody axes: +X forward, +Y left, metres. yaw and turns are radians, positive to the left.\nState sim_time_s is elapsed simulation time since this task began, not the episode clock.\nAvailable skills: stand maintains balance; move_forward/backward translate along +/-X;\nmove_left/right translate along +/-Y; turn_left/right rotate yaw at about +/-1 rad/s.\nMovement commands request about 0.2 m/s, but actual short-pulse displacement is not exact.\nFor stand and turns choose 0.02..1.00 seconds; translations 0.02..0.60 seconds.\nAll durations MUST be multiples of 0.02. Short pulses permit re-observation and correction.\nkick_left/right execute an existing learned kick and require EXACTLY 0.50 seconds.\nEach motion is followed by executor-controlled standing recovery before the next observation;\nthat recovery is not another model choice. Kicks require a stationary, aligned body.\nCalibrated ball centres for kicking: left (X=0.0895,Y=0.0411), right (X=0.0881,Y=-0.0429),\nwith +/-0.012m tolerance on each axis. An execution guard may reject unsafe or unaligned kicks;\nread its feedback and choose your next skill. A rejection does not mean the action happened.\nFollow the requested ball color and do not substitute another ball. Do not claim that an\nunseen object is absent from the whole world. Answer view questions from current images.\nFor a single movement request such as '往前走' or '后退一点', choose ONE bounded pulse;\nafter feedback confirms that pulse completed, return finish instead of repeating forever.\nFor a view-description question choose answer immediately, without moving or turning.\nAfter a kick, inspect the new images before reporting its outcome; an out-of-view ball alone\ndoes not prove a successful kick. Never claim physical success based only on issuing a command.\nReturn exactly one JSON object with all five keys: type, skill, seconds, target_color, reply.\ntype is skill, answer, clarify, or finish. For skill use one allowed skill, its valid duration,\nand the task's target_color (red/yellow/blue, or null for unrelated movement).\nFor other types skill MUST be null and seconds MUST be 0. Use answer for a visual reply,\nclarify when the instruction cannot be resolved, finish when you believe the task is complete.\nfinish is only your report; independent simulation evaluation decides physical success.\nReply in concise Chinese. No markdown, additional keys, action lists, code, or joint commands.\n\n任务示例（仅说明接口语义，不是本次任务）：\n用户“往前走一点”，尚未执行：{\"type\":\"skill\",\"skill\":\"move_forward\",\"seconds\":0.32,\"target_color\":null,\"reply\":\"向前走一小段。\"}\n同一任务，上次 move_forward 已执行并站稳：{\"type\":\"finish\",\"skill\":null,\"seconds\":0,\"target_color\":null,\"reply\":\"已经向前走了一小段并停稳。\"}\n用户“向左转一下”，尚未执行：{\"type\":\"skill\",\"skill\":\"turn_left\",\"seconds\":0.6,\"target_color\":null,\"reply\":\"向左转一下。\"}\n同一任务，上次 turn_left 已执行并站稳：{\"type\":\"finish\",\"skill\":null,\"seconds\":0,\"target_color\":null,\"reply\":\"已左转并停稳。\"}\n左转/右转改变朝向，对应 turn_left/turn_right；左移/右移才对应 move_left/move_right，转向后不需再横移。\n用户“看看你眼前有什么”：直接 answer，按实际图像描述；不需要走路。\n只走一步、退后一点、转一下等请求，收到执行完成反馈后即可结束，不能因为新画面仍有地板而重复运动。\n没有要求找球或踢球时，target_color 必须为 null，不能凭空添加颜色目标。\n踢球任务可以需要多次动作；一次靠近并不等于踢球完成。依据新观测继续选择，只有实际尝试踢后才报告结果。\n目标颜色明确但球不在当前视野时，可以调用 turn_left/turn_right 转身寻找；看不到球时禁止踢球。\n例如用户“踢红球”、当前两图没有红球，可以先 turn_left 1.0秒，然后看新图。\nclarify 只用于用户目标不明确；“我需要先找到球”是你应执行的子任务，不是需要用户澄清的问题。\n"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Current camera: front"
+        },
+        {
+          "type": "image",
+          "image": "images/episode_20261114_155725_49ca72f6/frame_00001_front.png"
+        },
+        {
+          "type": "text",
+          "text": "Current camera: near"
+        },
+        {
+          "type": "image",
+          "image": "images/episode_20261114_155725_49ca72f6/frame_00001_near.png"
+        },
+        {
+          "type": "text",
+          "text": "{\"instruction\": \"现在能看到什么？\", \"state\": {\"yaw\": 0.01637799793699108, \"stationary\": true, \"tilt_deg\": 1.429006536057384, \"sim_time_s\": 0.0, \"detections_rgbd\": [{\"color\": \"red\", \"center_body_m\": [0.36868426793870834, 0.27142049626170106, -0.07312049012354821], \"pixel_uv\": [49.0, 121.0], \"pixels\": 806, \"confidence\": 0.8443489099395292, \"fit_residual_m\": 0.0002316640128018082, \"camera\": \"front\"}, {\"color\": \"yellow\", \"center_body_m\": [-0.13294333220607432, -0.4203991327949289, -0.08488881776169818], \"pixel_uv\": [315.0, 202.0], \"pixels\": 226, \"confidence\": 0.9173729320067074, \"fit_residual_m\": 0.00012073768331829784, \"camera\": \"near\"}]}, \"context\": {\"previous_action\": null, \"previous_feedback\": \"\", \"history\": [], \"step\": 0}}"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": "{\"type\":\"answer\",\"skill\":null,\"seconds\":0.0,\"target_color\":null,\"reply\":\"我现在看到左前方有红球，右后方有黄球。\"}"
+    }
+  ],
+  "source": {
+    "event_id": "event_00002",
+    "frame_id": "frame_00001",
+    "rule_phase_audit_only": "done",
+    "rule_task_kind_audit_only": "describe",
+    "execution": {
+      "started": false,
+      "completed": false,
+      "start_time_s": null,
+      "end_time_s": null
+    }
+  }
+}

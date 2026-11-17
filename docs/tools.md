@@ -1,0 +1,72 @@
+---
+description: robot.tool, sim.tool and mesh.tool give a Strands agent a robot, a world or a whole mesh.
+---
+
+# Agent tools
+
+Each robot, world and mesh has a `.tool` you can give to a Strands agent.
+
+<!-- test: skip, needs AWS credentials for a Bedrock agent turn -->
+```python
+from strands import Agent
+from strands_robots import Robot
+
+arm = Robot("so101")
+Agent(tools=[arm.tool, arm.sim.tool])("look at the arm, then move shoulder_pan to 0.5")
+```
+
+| Tool | The agent can |
+|---|---|
+| `robot.tool` | Describe, observe, act, run a policy, stop, hold, e-stop |
+| `sim.tool` | Add robots, objects and cameras, step, reset, render an image |
+| `mesh.tool` | Do the same for every robot on the mesh |
+
+The tools are built from the robot's manifest. A new joint or skill appears in the tool without extra code.
+Each joint lists its unit and range, so the agent sees them.
+
+Calls to one world run in the order the agent sent them.
+[`agent_builds_a_scene.py`](https://github.com/strands-labs/robots/blob/main/notebooks/examples/agent_builds_a_scene.py)
+shows an agent building a scene and looking at it.
+
+## Give the agent your policies
+
+```python
+tool = arm.tool(policies={"wave": my_policy})  # a new tool; `arm.tool` itself stays without names
+Agent(tools=[tool, arm.sim.tool])
+```
+
+Give the agent the tool this call returns. The agent can then call `run(policy="wave", ...)`. Give a remote policy
+this way too. The agent cannot pass a network address itself.
+
+An agent may name a Hugging Face Hub checkpoint (`run(policy="owner/repo")`) only if you list it:
+`STRANDS_POLICY_REPOS=lerobot/smolvla_base,myorg/*` (exact repos, or every repo of one publisher). Loading a
+checkpoint runs code its publisher chose (its saved processor steps can load further repos with remote code), so the
+default is none. A run you approve does not change this. Your own `Policy("owner/repo")` and handles are not checked.
+
+An agent may name a checkpoint or dataset folder on this machine only if no other user could have written it: every
+file the loader reads, and every folder down to it, is owned by the user running the agent (or root) and is not
+writable by group or others. A sticky shared folder such as `/tmp` may sit above it. A folder another user owns or may
+write is refused, with the path that failed; fix it with `chown` and `chmod go-w`, or register it as a handle.
+
+A robot reached over the mesh counts as a real robot. An agent's `run` through `mesh.tool` is refused unless you
+build the tool with the operator's answer:
+
+```python
+from strands_robots.mesh.tool import use_mesh
+
+tool = use_mesh(lab, approve=lambda plan: input(f"allow {plan}? [y/N] ") == "y")
+```
+
+A device that offers skills (`mesh.mount(robot, skills={...})`, see [Mesh networking](mesh.md)) is different: the
+agent's `run` names one of them, `status` reports it, and the policy runs on the device.
+
+## What an agent cannot do
+
+| Action | Who does it |
+|---|---|
+| Approve a run on a real robot | The operator, once per plan |
+| Choose `record`, `push` or `units` | You, in code |
+| Resume after an e-stop | The operator |
+| Calibrate (it turns torque off) | You |
+
+An agent can always call e-stop. See [Let an agent pick skills](policies.md#let-an-agent-pick-skills).

@@ -1,0 +1,127 @@
+\chapter{术语、文件地图与复现实验清单}
+\section{术语速查}
+\begin{longtable}{P{33mm}P{119mm}}
+\toprule
+术语 & 本项目中的含义\\
+\midrule
+\endhead
+参数 / 权重 & 模型中的可学习数值。加载权重是读取它们，训练是按优化目标更新其中一部分\\
+预训练 & 用大规模通用数据建立基础视觉语言能力；本地使用现成权重\\
+后训练 & 在基础模型上进一步进行指令学习、蒸馏或反馈训练等；官方Instruct权重已包含相应阶段\\
+微调 & 用本任务数据继续训练选定参数。本轮是QLoRA形式的SFT\\
+token & 模型处理的离散单位；文字token不是固定等于一个汉字，图像也会形成视觉特征位置\\
+embedding / 特征 & 输入内容在模型内部的数值向量表示\\
+logit / softmax & 未归一化分数及其归一化为概率的变换\\
+交叉熵 & 对正确目标token概率取负对数并求平均的损失；越小表示更倾向示范答案\\
+梯度 & 损失对可训练参数变化的敏感程度，用来决定参数如何更新\\
+优化器 & 根据梯度及历史状态更新参数的算法；本轮使用AdamW\\
+学习率 & 控制每次参数更新幅度的系数；本轮采用预热加余弦调度\\
+microbatch & 一次前向和反向共同处理的样本数量；本轮为1\\
+梯度累计 & 连续多个microbatch累积梯度后再更新；本轮累计4\\
+step & 本文训练语境中通常指一次优化器更新；机器人决策step则是另一计数\\
+epoch & 对规定训练数据遍历一次；本轮9500条数据、一个epoch\\
+checkpoint & 可恢复的训练快照，包含适配器与优化器、调度器、随机状态、游标\\
+adapter & 插入模型的可训练模块及其权重；不能单独替代整个基础模型\\
+LoRA rank & 低秩增量矩阵的内部维度；本轮为8，不是技能数量\\
+量化 & 用较少比特表达权重以减小存储或显存；不自动等于相同比例加速\\
+BF16 & 16位浮点格式；本轮用于主要计算及部分冻结权重\\
+teacher forcing & 训练或计算损失时提供目标序列此前的正确token\\
+行为克隆 & 根据示范观测与动作，监督学习相同状态下的动作选择\\
+闭环 & 每次执行后读取新观测，再选择后续动作\\
+episode / task / row & 一段录制可含多个命令任务；一个任务又可导出多个决策或问答样本\\
+seed & 可复现的随机种子；本项目按独立场景种子隔离训练、验证和测试\\
+数据泄漏 & 让答案、未来信息或测试场景以不恰当方式进入训练或当前决策输入\\
+RGB-D & 彩色图像加深度测量；本轮模型接收RGB与由深度得到的结构化辅助测量\\
+NF4 / GGUF & 前者是本轮基础语言权重量化表示，后者是原推理引擎使用的模型文件格式，二者用途不同\\
+\bottomrule
+\end{longtable}
+
+\section{项目源码地图}
+下列文件均位于 \path{experiments/microduck_tasks/}。它们是解释当前实验行为的依据，不应与整个Strands Robots通用框架的全部功能等同。
+\begin{longtable}{P{55mm}P{96mm}}
+\toprule
+文件 & 主要职责\\
+\midrule
+\endhead
+\path{scene.py}、\path{runtime.py} & 场景、相机、MuJoCo推进、底层策略与传感状态\\
+\path{perception.py} & 颜色和深度感知、球相对位置测量\\
+\path{skills.py}、\path{planner.py} & 技能参数、规则老师的导航与踢球选择\\
+\path{language.py}、\path{vlm.py} & 规则路径的语言解析与视野回答\\
+\path{tasks.py}、\path{acceptance.py} & 规则任务执行、独立验收\\
+\path{skill_vlm.py} & 当前提示词、九技能与五字段协议、输入清理、HTTP模型客户端\\
+\path{skill_tasks.py} & 模型逐步选择、执行条件检查、取消与恢复站立、任务循环\\
+\path{collect_training.py} & 随机三色球与运动/问答采集计划\\
+\path{collect_near_training.py} & 近脚左右踢球补充数据\\
+\path{collect_direct_reset_training.py} & 独立复位后六种方向命令数据\\
+\path{training_data.py} & 筛选成功示范、过滤恢复事件、导出v5训练输入和标签\\
+\path{setup_training.py} & 独立训练环境与固定基础权重准备\\
+\path{train_vlm.py} & 预检、NF4/LoRA加载、SFT、验证、保存、恢复\\
+\path{launch_training.py} & 分离后台训练进程并写入启动记录\\
+\path{setup_vlm.py}、\path{serve_vlm.sh} & 原始GGUF模型与llama.cpp推理服务\\
+\path{demo.py}、\path{run.sh} & 规则/VLM仿真入口、交互命令、窗口与结果记录\\
+\bottomrule
+\end{longtable}
+
+\section{正式产物文件地图}
+\begin{longtable}{P{58mm}P{93mm}}
+\toprule
+文件 & 阅读方式\\
+\midrule
+\endhead
+\path{training_config.json} & 冻结的训练参数、模型revision、数据与权重指纹\\
+\path{preflight.json} & 全量输入长度、最长样本、是否截断\\
+\path{system_prompt.txt} & 本轮模型看到的实际系统指令\\
+\path{model_summary.json} & 可训练参数数目与名字\\
+\path{train.log} & 后台标准输出和错误日志\\
+\path{metrics.jsonl} & 每次更新损失、学习率、梯度范数、显存，以及定期验证值\\
+\path{run_status.json} & 当前或最近写入的进程阶段、步数、游标、错误\\
+\path{latest_checkpoint.json} & 最近完整可恢复检查点的位置\\
+\path{checkpoint-*/adapter/} & 当时的LoRA配置与权重\\
+\path{checkpoint-*/training_state.pt} & 优化器、调度器、随机数状态和训练游标\\
+\path{best_adapter/} & 固定验证样本损失最优时保存的适配器；仍需闭环验证\\
+\path{final_adapter/} & 正常完成训练后保存的最后一步适配器\\
+\path{baseline_evaluation.json} & 微调前固定验证损失与生成指标\\
+\path{baseline_predictions.jsonl} & 微调前逐条原始生成和目标\\
+\path{evaluation.json} & 手动eval-only产生的统计；后续同名评测会覆盖\\
+\path{generation_evaluation.json} & 正常训练结束后的生成指标；不同于手动eval-only的输出名\\
+\path{predictions.jsonl} & 正常结束或手动评测产生的逐条输出\\
+\path{startup_verification.json} & 正式第10步实际参数更新与恢复文件核验记录\\
+\bottomrule
+\end{longtable}
+
+模型和数据的哈希是一种文件指纹：相同指纹用于核对是否仍是同一份内容。它不评价数据是否科学，也不说明模型是否准确。源文件发生变化后，应重新检查哪些实验结果还可直接比较。
+
+\section{本书固定事实卡}
+\begin{longtable}{P{52mm}P{99mm}}
+\toprule
+项目 & 本书记录\\
+\midrule
+\endhead
+快照时刻 & 2026-11-14 17:14:02（Asia/Shanghai）\\
+模型 & Qwen/Qwen3-VL-2B-Instruct\\
+模型revision & \path{89644892e4d85e24eaac8bacfd4f463576704203}\\
+提示词版本 & \path{microduck-skills-5}\\
+数据集清单SHA256 & \path{3c3398ee4acb40bd2c5d87d29a4a693b5aca58bcebc305c398c2f762bf7e22df}\\
+场景与样本 & 676个案例、146组种子；9500/1299/1135条训练/验证/测试样本\\
+优化更新 & 101/2375，最新完整检查点100\\
+验证损失 & 基线1.013274；第100步0.168665（固定32样本）\\
+生成与闭环状态 & 有未微调24样本基线；正式微调后的生成与闭环尚未完成\\
+环境版本 & Torch 2.9.1+cu128；Transformers 4.57.6；PEFT 0.18.1；bitsandbytes 0.49.2\\
+核心实现边界 & MuJoCo仿真；未执行实体机器人测试；技能头方案与LoRA仿真服务待实现\\
+\bottomrule
+\end{longtable}
+
+\section{从一个新实验到可比较结论的检查顺序}
+\begin{enumerate}
+\item 写清任务、技能接口、允许输入、成功条件及不支持的行为。
+\item 在采集前固定场景种子与训练/验证/测试归属。
+\item 保存原始观测、实际执行和独立物理验收，保留失败记录。
+\item 筛选示范，排除答案泄漏和未来信息，检查语言是否真的改变动作。
+\item 记录模型、提示词、数据与代码版本，完成最长输入资源试跑。
+\item 运行训练，保存基线、更新指标、恢复状态和异常。
+\item 用验证数据比较参数设置，用保留测试场景做最终报告。
+\item 将选定权重接入真实推理路径，验证输入输出一致，再进行闭环任务。
+\item 按失败类型补数据或改系统，另开版本，保留上一轮的可复现对照。
+\end{enumerate}
+
+本书附带LaTeX源文件、固定日志快照、真实样本图和来源清单，便于你检查描述和实际文件是否一致。报告生成只读取训练数据与状态，并未为制作PDF而暂停训练、切换模型或重新采集。

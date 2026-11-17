@@ -1,0 +1,387 @@
+{
+  "checkpoints": [
+    {
+      "step": 513,
+      "full": true,
+      "total": 343,
+      "counts": {
+        "json_valid": 343,
+        "context_valid": 322,
+        "plan_exact": 305,
+        "semantic_plan_exact": 305,
+        "attempted_false_start": 25,
+        "accepted_false_start": 5,
+        "reply_present": 343,
+        "premature_completion": 0,
+        "reply_reference_exact": 90
+      },
+      "groups": {
+        "action_reply": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "action_vs_discussion": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "ambiguous_detection": {
+          "total": 2,
+          "semantic_plan_exact": 0
+        },
+        "append_capacity": {
+          "total": 19,
+          "semantic_plan_exact": 12
+        },
+        "capability_snapshot": {
+          "total": 2,
+          "semantic_plan_exact": 0
+        },
+        "capacity": {
+          "total": 1,
+          "semantic_plan_exact": 1
+        },
+        "chat_active_chat": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_capability": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_capability_question": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_completed_status": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_discussion_not_command": {
+          "total": 4,
+          "semantic_plan_exact": 2
+        },
+        "chat_emotion": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_greeting": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_identity": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_light_qa": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_safe_pause_explanation": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_small_talk": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_task_status": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_thanks": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_unknown_information": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "colloquial_units": {
+          "total": 24,
+          "semantic_plan_exact": 21
+        },
+        "continuous": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "control_cancel": {
+          "total": 8,
+          "semantic_plan_exact": 8
+        },
+        "control_pause": {
+          "total": 8,
+          "semantic_plan_exact": 7
+        },
+        "control_resume": {
+          "total": 8,
+          "semantic_plan_exact": 7
+        },
+        "duration_move": {
+          "total": 24,
+          "semantic_plan_exact": 24
+        },
+        "environment_guard": {
+          "total": 12,
+          "semantic_plan_exact": 0
+        },
+        "executor_feedback": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "grounded_observation": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "honest_failure": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "latest_instruction": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "multi_turn_resolution": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "ordered_queue": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "posture": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "reference": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "repeat": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "self_action": {
+          "total": 39,
+          "semantic_plan_exact": 37
+        },
+        "target": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "turn": {
+          "total": 6,
+          "semantic_plan_exact": 5
+        },
+        "turn_units": {
+          "total": 6,
+          "semantic_plan_exact": 5
+        },
+        "unit_conversion": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "unsupported_clarify": {
+          "total": 20,
+          "semantic_plan_exact": 16
+        }
+      },
+      "generation_seconds": 1007.3634116990725,
+      "reply_quality": "Only presence and obvious premature-completion checks; no comprehensive chat-quality claim.",
+      "source": "independent_synthetic_validation",
+      "physical_executions": 0,
+      "blind_access": false
+    },
+    {
+      "step": 1026,
+      "full": true,
+      "total": 343,
+      "counts": {
+        "json_valid": 343,
+        "context_valid": 322,
+        "plan_exact": 307,
+        "semantic_plan_exact": 307,
+        "attempted_false_start": 26,
+        "accepted_false_start": 5,
+        "reply_present": 343,
+        "premature_completion": 0,
+        "reply_reference_exact": 103
+      },
+      "groups": {
+        "action_reply": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "action_vs_discussion": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "ambiguous_detection": {
+          "total": 2,
+          "semantic_plan_exact": 0
+        },
+        "append_capacity": {
+          "total": 19,
+          "semantic_plan_exact": 13
+        },
+        "capability_snapshot": {
+          "total": 2,
+          "semantic_plan_exact": 0
+        },
+        "capacity": {
+          "total": 1,
+          "semantic_plan_exact": 1
+        },
+        "chat_active_chat": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_capability": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_capability_question": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_completed_status": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_discussion_not_command": {
+          "total": 4,
+          "semantic_plan_exact": 2
+        },
+        "chat_emotion": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_greeting": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_identity": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_light_qa": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_safe_pause_explanation": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_small_talk": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_task_status": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_thanks": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "chat_unknown_information": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "colloquial_units": {
+          "total": 24,
+          "semantic_plan_exact": 21
+        },
+        "continuous": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "control_cancel": {
+          "total": 8,
+          "semantic_plan_exact": 8
+        },
+        "control_pause": {
+          "total": 8,
+          "semantic_plan_exact": 8
+        },
+        "control_resume": {
+          "total": 8,
+          "semantic_plan_exact": 7
+        },
+        "duration_move": {
+          "total": 24,
+          "semantic_plan_exact": 24
+        },
+        "environment_guard": {
+          "total": 12,
+          "semantic_plan_exact": 0
+        },
+        "executor_feedback": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "grounded_observation": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "honest_failure": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "latest_instruction": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "multi_turn_resolution": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "ordered_queue": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "posture": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "reference": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "repeat": {
+          "total": 4,
+          "semantic_plan_exact": 4
+        },
+        "self_action": {
+          "total": 39,
+          "semantic_plan_exact": 36
+        },
+        "target": {
+          "total": 12,
+          "semantic_plan_exact": 12
+        },
+        "turn": {
+          "total": 6,
+          "semantic_plan_exact": 5
+        },
+        "turn_units": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "unit_conversion": {
+          "total": 6,
+          "semantic_plan_exact": 6
+        },
+        "unsupported_clarify": {
+          "total": 20,
+          "semantic_plan_exact": 16
+        }
+      },
+      "generation_seconds": 954.7657132001477,
+      "reply_quality": "Only presence and obvious premature-completion checks; no comprehensive chat-quality claim.",
+      "source": "independent_synthetic_validation",
+      "physical_executions": 0,
+      "blind_access": false
+    }
+  ],
+  "selected_step": 513
+}

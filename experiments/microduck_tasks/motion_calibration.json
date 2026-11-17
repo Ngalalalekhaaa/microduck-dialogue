@@ -1,0 +1,28 @@
+{
+  "format": "microduck-sim-heading-calibration-1",
+  "hardware": false,
+  "policy_sha256": "fb2487268866dfbfd219caa76327e33169a00329d7b55fb06c77308939183770",
+  "commands": {
+    "move_forward": [
+      0.2,
+      0.0,
+      -0.09999999999999998
+    ],
+    "move_backward": [
+      -0.2,
+      0.020000000000000004,
+      0.0
+    ],
+    "move_left": [
+      0.0,
+      0.2,
+      0.2800000000000001
+    ],
+    "move_right": [
+      -0.019999999999999997,
+      -0.2,
+      0.020000000000000004
+    ]
+  },
+  "evidence": "experiments/microduck_tasks/outputs/motion_feedback_20261115/calibration.json"
+}

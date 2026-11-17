@@ -1,0 +1,625 @@
+{
+  "format_version": "microduck-guide-local-data-sources-1",
+  "scope": "02_data.tex and03_runtime.tex, read-only checked sources; no GPU/model runs",
+  "status_snapshot": "2026-11-14T17:14:02+08:00",
+  "frozen_dataset_manifest_sha256": "3c3398ee4acb40bd2c5d87d29a4a693b5aca58bcebc305c398c2f762bf7e22df",
+  "sources": [
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/scene.py",
+      "sha256": "ef0cf1e3246f1d016c4128102c295468f06fadd3b1f58aa8c43d72814d86756b",
+      "line_ranges": [
+        [
+          10,
+          35
+        ],
+        [
+          39,
+          75
+        ]
+      ],
+      "facts": [
+        "RGB ball colors and known 0.035 m radius; main polar sampling radius 0.3–0.6 m and minimum separation 0.20 m.",
+        "Both front and near cameras are explicitly added to trunk_base. Positions [0.14,0,0.16] and [0.17,0,0.12]; pitch45/110 degrees; fovy85/90 degrees."
+      ],
+      "line_count": 75
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/runtime.py",
+      "sha256": "c5b462f8f0eb994541b2db4eb3203d89b2cb6dc1d498eb1d501a5a331219c5ce",
+      "line_ranges": [
+        [
+          20,
+          44
+        ],
+        [
+          51,
+          119
+        ],
+        [
+          142,
+          192
+        ],
+        [
+          208,
+          279
+        ],
+        [
+          281,
+          351
+        ]
+      ],
+      "facts": [
+        "CPU MuJoCo HD1910 timestep0.005, lag4 steps; policy tick0.02 and 4 controller/physics steps.",
+        "RGB and metric depth are rendered from one snapshot at320x240.",
+        "Proprioceptive yaw/tilt and stationary flag derive from simulated robot state, not external ball truth.",
+        "Stationary planar speed<0.025 m/s and gyro norm<0.3 rad/s.",
+        "Ball truth read separately for evaluation only; saved trajectory fields listed in code.",
+        "Live worker continues stand during VLM waiting; simulation fall cutoff tilt>50 degrees or trunk z<0.065 m."
+      ],
+      "line_count": 360
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/perception.py",
+      "sha256": "8cc8cf8ce240dda8be2765fc7909e6a971feb7cf57969f642bc2b81d80af0259",
+      "line_ranges": [
+        [
+          6,
+          23
+        ],
+        [
+          26,
+          86
+        ],
+        [
+          89,
+          183
+        ]
+      ],
+      "facts": [
+        "RGB threshold connected components and known-radius sphere fitting recover centers from RGB-D pixels/calibration.",
+        "Reject planar/insufficient-curvature/inlier-poor fits; confidence is quality score not calibrated probability.",
+        "Detection fields color,center_body_m,pixel_uv,pixels,confidence,fit_residual_m,camera."
+      ],
+      "line_count": 183
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/planner.py",
+      "sha256": "633785118be548b4c80d41483e8ad7223da565bf70d54bb454aaa08772f8d5b8",
+      "line_ranges": [
+        [
+          14,
+          97
+        ]
+      ],
+      "facts": [
+        "Ordered rule teacher stages: search, face, lock foot, settle/kick, avoid, lateral alignment, forward/backward.",
+        "Search left1.0s until angular span>=2pi+0.25;120 decisions/180 simulated seconds limits.",
+        "Foot goals left(0.0895,0.0411),right(0.0881,-0.0429), axis tolerance0.012m.",
+        "Distance0.24/angle0.35 gating; pulse thresholds and exact durations copied to chapter.",
+        "Foot commit is internal persistent memory; not always recoverable from last six student actions."
+      ],
+      "line_count": 97
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/tasks.py",
+      "sha256": "e76ca89a23569a1c8789378339860f44e86a930cb4a3fd06689e312ac0260c47",
+      "line_ranges": [
+        [
+          21,
+          107
+        ],
+        [
+          114,
+          159
+        ],
+        [
+          162,
+          233
+        ]
+      ],
+      "facts": [
+        "Rule session event fields, direct task stop/describe/clarify handling, motion execution and fixed recovery.",
+        "Ordinary executor recovery1s; postkick3s; ground-truth acceptance separate from planner.",
+        "Kick criteria contact window0.54s; planar displacement>=0.12m; no wrong/early contacts; max tilt<30; trunk>=0.065; recovered finalstand with tilt<10,speed<0.025,angular<0.3,height>0.09."
+      ],
+      "line_count": 233
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/dataset.py",
+      "sha256": "1d641073ec59310f801baa7ad8325c79ffd43e3ed739b75f0920843ee54d2339",
+      "line_ranges": [
+        [
+          64,
+          132
+        ],
+        [
+          135,
+          199
+        ]
+      ],
+      "facts": [
+        "Original episode metadata and event schema.",
+        "Depth NPZ keydepth_m; PNG RGB and relative paths; validates actual started/completed/timestamps."
+      ],
+      "line_count": 402
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/collect_training.py",
+      "sha256": "527423867dc8c3f1fbe2f8afc4f4838b1c61d86c3706f9dc3f8c23551df2630e",
+      "line_ranges": [
+        [
+          28,
+          121
+        ],
+        [
+          161,
+          248
+        ],
+        [
+          311,
+          335
+        ]
+      ],
+      "facts": [
+        "Split-specific kick/view/movement phrases;100seed×4case main plan.",
+        "Physical direct-action evaluation checks trace,contacts,grammar and signed movement/yaw.",
+        "Collection metadata verified/status/evaluation/split annotations."
+      ],
+      "line_count": 567
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/collect_near_training.py",
+      "sha256": "f6f2bc1bed13f919dbb6fbf20c1bddbd84c98eb67617241b6c54bdcf062db243",
+      "line_ranges": [
+        [
+          12,
+          49
+        ]
+      ],
+      "facts": [
+        "30seed×2foot×3color=180 nearbycases. Targetfootgoal jitter each axis±0.004m; distractorsradius0.35–0.60m."
+      ],
+      "line_count": 81
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/collect_direct_reset_training.py",
+      "sha256": "efe513894fb36c1c05c7664c48868dd6aa6264861fa7adce43e3582c5cc598b2",
+      "line_ranges": [
+        [
+          11,
+          27
+        ]
+      ],
+      "facts": [
+        "16seed×6direction=96 independently reset cases. Same seed preserves initial state/images while changing instruction."
+      ],
+      "line_count": 57
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/training_data.py",
+      "sha256": "98111593e0bdd4e8e4affb1c78377e3291ab8c49b0c27c6172b94cf1abb46680",
+      "line_ranges": [
+        [
+          43,
+          114
+        ],
+        [
+          117,
+          229
+        ],
+        [
+          253,
+          337
+        ]
+      ],
+      "facts": [
+        "Strict task selection and matching executed motions/recovery.",
+        "Fixed recovery removed while true0.6s teacherstand kept.",
+        "Failure excludes whole task, not successful sibling describe tasks.",
+        "Skilltargets validated against deployed parser/guard; finish wording avoids unsupported success claim.",
+        "Input raw/messages same whitelistedinstruction,state,context; sourceintent/phase remain auditonly.",
+        "Explicit seed splits from collection metadata and finalizedcase whitelist."
+      ],
+      "line_count": 415
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/skill_vlm.py",
+      "sha256": "57b6a37816cc82264d8c3aa2470dac56f7b086d7df6eeb0bcb56e59fd605d8b1",
+      "line_ranges": [
+        [
+          22,
+          98
+        ],
+        [
+          144,
+          182
+        ],
+        [
+          200,
+          261
+        ],
+        [
+          297,
+          402
+        ]
+      ],
+      "facts": [
+        "Nine skill names,five requiredJSON fields; developer-defined protocol not nativeQwenoutput.",
+        "System prompt contains images,axes,durations,footgoals,executionfeedbacksemantics and examples.",
+        "v5 removes task_id from validated context and makes sim_time_s taskrelative,round6decimals.",
+        "HTTP loopback request sends actualPNGimages,temperature0,max_tokens256,JSONschema.",
+        "Local backend metadata pretrainedtrue,robotfinetunedfalse."
+      ],
+      "line_count": 437
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/skill_tasks.py",
+      "sha256": "5bbea28b7d735748bb97ea90338c6bc11f8db3d64610aea7ec7280abb593e8b5",
+      "line_ranges": [
+        [
+          17,
+          59
+        ],
+        [
+          110,
+          183
+        ],
+        [
+          185,
+          315
+        ]
+      ],
+      "facts": [
+        "Bodytiltguard25degrees; kickstationary/visible/aligned with eachaxis±0.012m.",
+        "Freshguard observation after inference; no rulefallback or substituting actions.",
+        "Last6proposal/feedback records may include rejectedproposals; successfeedback distinguishes execution.",
+        "Stop independent; inference45sdefault;40calltaskdefault/max120;600swalllimit;latecancelledoutputnotexecuted.",
+        "Finish without physical acceptance ismodel_reported; expected_color is independent evaluationonly."
+      ],
+      "line_count": 315
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/skills.py",
+      "sha256": "e9de38ec8490da690546cb99190e7d0feb86838831a1fce0696572252aaf71d5",
+      "line_ranges": [
+        [
+          14,
+          92
+        ]
+      ],
+      "facts": [
+        "Stand and six locomotion skills share learned walkpolicy withtwists; distinct left/rightkickONNX.",
+        "50HzCPUONNX; strict metadata/shapes;61inputs14outputs; preserve lastactionacrossskills."
+      ],
+      "line_count": 92
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/bootstrap.py",
+      "sha256": "bfbdcd3912e8fec996746eab7bdb4a2e31865d14299662fb209de4f8b5bfd882",
+      "line_ranges": [
+        [
+          8,
+          16
+        ]
+      ],
+      "facts": [
+        "Actual local assets/walkingmodel/kickmodelcache paths and pinned kick hashes."
+      ],
+      "line_count": 28
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/setup_vlm.py",
+      "sha256": "75363298f7a214d263d971f0d091dd31e003b37c7490362b8906bd0ee898d566",
+      "line_ranges": [
+        [
+          30,
+          33
+        ],
+        [
+          280,
+          308
+        ]
+      ],
+      "facts": [
+        "Currentllama.cpp deployment reads officialQwen3VL2BInstruct Q4_K_M GGUF plusQ8_0mmproj; no trainingadapter path is loaded."
+      ],
+      "line_count": 323
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/train_vlm.py",
+      "sha256": "d8fdd49b23728aae3a627b52a063c6c8045823b76792424d3fa9dfbec11d0a40",
+      "line_ranges": [
+        [
+          85,
+          116
+        ],
+        [
+          119,
+          184
+        ]
+      ],
+      "facts": [
+        "Rawfields rebuild same messages; processor image reading,chat template,prompt prefix check,no silenttruncation.",
+        "Trainingtext target appendedonlyasassistant;crossentropyonassistant;noDPOpreferencepairs."
+      ],
+      "line_count": 679
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/demo.py",
+      "sha256": "4cb43926b015adfb08b1b0c6f8d076b1283bef65cbf6ded8c0b6fa9078b666f1",
+      "line_ranges": [
+        [
+          170,
+          207
+        ],
+        [
+          257,
+          302
+        ],
+        [
+          323,
+          350
+        ]
+      ],
+      "facts": [
+        "CLIvlm-max-steps,RGB-onlyinputflagbutguardstillRGBD,expectedcolornevermodelinput.",
+        "Recordmetadataandruntimeparameters,contacts/trajectory/summaryfiles."
+      ],
+      "line_count": 392
+    },
+    {
+      "path": "/home/luckysir/microduck/deploy_hd1910/microduck_deploy/policy.py",
+      "sha256": "7023b4e585992c1a34a5b61b4d33333a291ad01b267680d4e62d83ed45c0ee4a",
+      "line_ranges": [
+        [
+          16,
+          38
+        ],
+        [
+          163,
+          222
+        ]
+      ],
+      "facts": [
+        "14jointnames exclude mouth;61Dproprioception/commandinput layout;HOME+rawactionunitradian;optionalhardlimitsnotusedbycurrentsimulationcall."
+      ],
+      "line_count": 301
+    },
+    {
+      "path": "/home/luckysir/microduck/scripts/render_hd1910_controller.py",
+      "sha256": "5cb112edfc861da175ef7f3460e1e36fb9b89ab632e304230c0a4f91680fc05d",
+      "line_ranges": [
+        [
+          19,
+          31
+        ],
+        [
+          113,
+          218
+        ]
+      ],
+      "facts": [
+        "HD1910 parameterfile andBAMnominalCPUcontroller;fixed4×5msdelay;not exactWarp environment replay."
+      ],
+      "line_count": 221
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/training_collection_audit_20261114.json",
+      "sha256": "77172b454f65203d684ea52219dcb96f48f7555ad4f313767380a45162f18bfb",
+      "line_ranges": [
+        [
+          508,
+          508
+        ],
+        [
+          509,
+          509
+        ]
+      ],
+      "facts": [
+        "676plannedcases;146seeds;main400,near180,directreset96. Main277/300kickand100/100direct;near180/180;reset96/96.",
+        "47,416rawRGBfiles;reset16groupssameinitialimages/state;allcollectionauditpassed."
+      ],
+      "line_count": 519
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/training_audit_20261114/final_dataset.json",
+      "sha256": "f39767d2ef602462c868347038657d05ef55b5868ca27d859831bd274f18c6ff",
+      "line_ranges": [
+        [
+          211,
+          211
+        ],
+        [
+          392,
+          392
+        ],
+        [
+          573,
+          573
+        ],
+        [
+          651,
+          651
+        ],
+        [
+          680,
+          680
+        ],
+        [
+          1078,
+          1078
+        ],
+        [
+          1088,
+          1088
+        ],
+        [
+          1116,
+          1116
+        ]
+      ],
+      "facts": [
+        "11,934samples:9500train1299val1135test;2413tasks;23868imagesverifiedagainstoriginal.",
+        "No seed/episode/complete-layout split overlap;all9skills/3colorsineachsplit.",
+        "457validkicktasks,p50=21,p95=56.8,max117;40tasks>40decisions;recommendmaxsteps120subject600swalllimit."
+      ],
+      "line_count": 1131
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/training_audit_20261114/review.json",
+      "sha256": "f8c6cd6b093b1c016b8855324b187d0c9529e72f8cafe41e030d3187ec8fce21",
+      "line_ranges": [
+        [
+          107,
+          107
+        ],
+        [
+          189,
+          189
+        ]
+      ],
+      "facts": [
+        "Independent teacher internal-foot partial observability analysis and limited-history risk."
+      ],
+      "line_count": 258
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/training_dataset_final_20261114/manifest.json",
+      "sha256": "3c3398ee4acb40bd2c5d87d29a4a693b5aca58bcebc305c398c2f762bf7e22df",
+      "line_ranges": [
+        [
+          159,
+          159
+        ],
+        [
+          20896,
+          20896
+        ],
+        [
+          20902,
+          20902
+        ],
+        [
+          20903,
+          20903
+        ]
+      ],
+      "facts": [
+        "Frozenformalv5datasetcounts,perclassdistribution,sourceprovenance/exclusions.",
+        "9063fixedexecutor-recoveryeventsremoved;100stop excluded;23failedkicktasks excluded:9verificationfailed12notfound2timeout."
+      ],
+      "line_count": 20912
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/training_near_collection_20261114/seed_2000_left_red_near/events.jsonl",
+      "sha256": "5fade13b12749b1e1d5c67c550e313eae7e009c8548c9cf0727070db21aaa905",
+      "line_ranges": [
+        [
+          3,
+          7
+        ]
+      ],
+      "facts": [
+        "Actualkicktask starts~2.0s;stand0.6 then event00005kickleft0.5 then fixedrecover3.0;done~6.1s."
+      ],
+      "line_count": 9
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/training_near_collection_20261114/seed_2000_left_red_near/episode.json",
+      "sha256": "f0f65682f5532f85be985fe9b8a1fa20bc1741990ea189ca7c43e56838a37f3b",
+      "line_ranges": [
+        [
+          97,
+          97
+        ],
+        [
+          98,
+          98
+        ],
+        [
+          101,
+          101
+        ],
+        [
+          102,
+          102
+        ],
+        [
+          151,
+          151
+        ],
+        [
+          153,
+          153
+        ]
+      ],
+      "facts": [
+        "ActualexampleHD1910BAMmodel metadata;actuatorstringsts3215 isimplementation label not physicalhardwareidentification."
+      ],
+      "line_count": 172
+    },
+    {
+      "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/training_dataset_final_20261114/train.jsonl",
+      "sha256": "c03abeb64c36b5addd5f6c233cc5f632ae597448a305eb6747f16b1ac3fd30aa",
+      "line_ranges": [
+        [
+          1,
+          1
+        ],
+        [
+          8783,
+          8783
+        ]
+      ],
+      "facts": [
+        "Line1 actualviewquestionseed1000; line8783 actualteacherleftkickredseed2000. Correctlabels not measuredtrained-modeloutputs."
+      ],
+      "line_count": 9500
+    }
+  ],
+  "actual_examples": [
+    {
+      "copy": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/reports/vlm_training_guide_20261114/sample_original.json",
+      "sample_id": "episode_20261114_155725_49ca72f6:event_00002",
+      "source_split": "train",
+      "source_line": 1,
+      "source_row_sha256": "77ed4d81f3c493141a31350e18451bc2d3c5f00530da153aa6bd911587d66491",
+      "kind": "actual_rule_demonstration_not_model_prediction",
+      "image_copies": {
+        "front": {
+          "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/reports/vlm_training_guide_20261114/assets/sample_front.png",
+          "sha256": "4acfdc96e456f2f008bc3e6c0973181f93060f3e224b4a321467e33c8dfe54d0"
+        },
+        "near": {
+          "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/reports/vlm_training_guide_20261114/assets/sample_near.png",
+          "sha256": "f40b2be09486887afe99e00d0222f6b5253ec9f26ad7815184290e9f7043f0ce"
+        }
+      }
+    },
+    {
+      "copy": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/reports/vlm_training_guide_20261114/sample_kick_original.json",
+      "sample_id": "episode_20261114_160616_a3617b51:event_00005",
+      "source_split": "train",
+      "source_line": 8783,
+      "source_row_sha256": "c968c11311ced2fecf86b4a44ec91e53c0cba31f892c320bdc2b6a15e633d751",
+      "kind": "actual_rule_demonstration_not_model_prediction",
+      "image_copies": {
+        "front": {
+          "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/reports/vlm_training_guide_20261114/assets/sample_kick_front.png",
+          "sha256": "607f8ed5e9a5f62cb7fed292c5d54d00c17b1995030970d626a21e10d5ebeb6a"
+        },
+        "near": {
+          "path": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/reports/vlm_training_guide_20261114/assets/sample_kick_near.png",
+          "sha256": "58192b4dbf8fc53eafcd4d3181bcafb7ef063fc1362cc026cc55ef5856828f78"
+        }
+      }
+    }
+  ],
+  "presentation_notes": [
+    "Printed floating-point measurements rounded to6decimals only; completeoriginalJSON preserved.",
+    "Inline move_left0.20 example explicitly hypothetical teachingexample.",
+    "Rulesuccesscounts are not VLMsuccessrates.",
+    "CurrentGGUFservice does not automaticallyloadQLoRAtrainingadapter."
+  ]
+}

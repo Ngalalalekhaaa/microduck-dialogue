@@ -1,0 +1,769 @@
+{
+  "created_at": "2026-11-17T10:27:32.737873+08:00",
+  "conclusion_zh": "Q1R续训已完成，普通技能规划明显改善；队列边界、状态约束和回复事实一致性仍不可靠。新增实际仿真验证了动作能力，也发现离线计划评分未捕捉的执行反馈错报。",
+  "training": {
+    "complete": true,
+    "epochs_completed": 2,
+    "optimizer_updates": 1026,
+    "training_rows": 8196,
+    "validation_rows": 343,
+    "finished_at": "2026-11-17T05:31:04.177685+08:00",
+    "total_pipeline_elapsed_approx_hours_minutes": "9h13m",
+    "training_compute_seconds": 30060.01701719861,
+    "selected_checkpoint": "/home/luckysir/Strands_Robots/experiments/microduck_tasks/outputs/q1r_20261116/train/checkpoint_000513",
+    "selected_weight_sha256": "a88f1eae46c6719bfd8ecbc1a811bcbafb172710e5a56345dd2ae24544893ed9",
+    "selected_validation": {
+      "json_valid": 343,
+      "context_valid": 322,
+      "plan_exact": 305,
+      "semantic_plan_exact": 305,
+      "attempted_false_start": 25,
+      "accepted_false_start": 5,
+      "reply_present": 343,
+      "premature_completion": 0,
+      "reply_reference_exact": 90
+    },
+    "selection_note_zh": "两轮全部完成；按预先规定的更少错误启动优先规则选513步，1026步完整计划虽多对两条但错误启动尝试多一条。",
+    "reload_pass": true
+  },
+  "matched_development_comparison": {
+    "total": 310,
+    "old": {
+      "json_valid": 310,
+      "context_valid": 293,
+      "semantic_plan_exact": 167,
+      "attempted_false_start": 22,
+      "accepted_false_start": 11,
+      "semantic_plan_exact_pct": 53.87096774193548
+    },
+    "new": {
+      "json_valid": 310,
+      "context_valid": 292,
+      "semantic_plan_exact": 268,
+      "attempted_false_start": 23,
+      "accepted_false_start": 8,
+      "semantic_plan_exact_pct": 86.45161290322581
+    },
+    "delta_percentage_points": 32.58064516129033
+  },
+  "improved_count": 105,
+  "regressed_count": 4,
+  "group_comparison": [
+    {
+      "total": 10,
+      "old": {
+        "json_valid": 10,
+        "context_valid": 10,
+        "semantic_plan_exact": 7,
+        "attempted_false_start": 1,
+        "accepted_false_start": 1,
+        "semantic_plan_exact_pct": 70.0
+      },
+      "new": {
+        "json_valid": 10,
+        "context_valid": 10,
+        "semantic_plan_exact": 8,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 80.0
+      },
+      "delta_percentage_points": 10.0,
+      "group": "active_dialogue",
+      "label_zh": "执行中追加或改任务"
+    },
+    {
+      "total": 12,
+      "old": {
+        "json_valid": 12,
+        "context_valid": 9,
+        "semantic_plan_exact": 4,
+        "attempted_false_start": 5,
+        "accepted_false_start": 2,
+        "semantic_plan_exact_pct": 33.333333333333336
+      },
+      "new": {
+        "json_valid": 12,
+        "context_valid": 9,
+        "semantic_plan_exact": 5,
+        "attempted_false_start": 5,
+        "accepted_false_start": 2,
+        "semantic_plan_exact_pct": 41.666666666666664
+      },
+      "delta_percentage_points": 8.333333333333329,
+      "group": "capacity",
+      "label_zh": "容量与连续任务边界"
+    },
+    {
+      "total": 24,
+      "old": {
+        "json_valid": 24,
+        "context_valid": 23,
+        "semantic_plan_exact": 22,
+        "attempted_false_start": 1,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 91.66666666666667
+      },
+      "new": {
+        "json_valid": 24,
+        "context_valid": 24,
+        "semantic_plan_exact": 24,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 8.333333333333329,
+      "group": "chat",
+      "label_zh": "聊天及聊天式动作请求（仅规划）"
+    },
+    {
+      "total": 8,
+      "old": {
+        "json_valid": 8,
+        "context_valid": 8,
+        "semantic_plan_exact": 7,
+        "attempted_false_start": 1,
+        "accepted_false_start": 1,
+        "semantic_plan_exact_pct": 87.5
+      },
+      "new": {
+        "json_valid": 8,
+        "context_valid": 8,
+        "semantic_plan_exact": 8,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 12.5,
+      "group": "chat_during_motion",
+      "label_zh": "执行中聊天（仅规划）"
+    },
+    {
+      "total": 20,
+      "old": {
+        "json_valid": 20,
+        "context_valid": 20,
+        "semantic_plan_exact": 13,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 65.0
+      },
+      "new": {
+        "json_valid": 20,
+        "context_valid": 20,
+        "semantic_plan_exact": 20,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 35.0,
+      "group": "composition",
+      "label_zh": "多动作组合"
+    },
+    {
+      "total": 4,
+      "old": {
+        "json_valid": 4,
+        "context_valid": 4,
+        "semantic_plan_exact": 4,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "new": {
+        "json_valid": 4,
+        "context_valid": 4,
+        "semantic_plan_exact": 4,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 0.0,
+      "group": "continuous",
+      "label_zh": "持续运动"
+    },
+    {
+      "total": 6,
+      "old": {
+        "json_valid": 6,
+        "context_valid": 5,
+        "semantic_plan_exact": 4,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 66.66666666666667
+      },
+      "new": {
+        "json_valid": 6,
+        "context_valid": 6,
+        "semantic_plan_exact": 3,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 50.0
+      },
+      "delta_percentage_points": -16.66666666666667,
+      "group": "control",
+      "label_zh": "暂停与恢复等控制（共同模型子集）"
+    },
+    {
+      "total": 8,
+      "old": {
+        "json_valid": 8,
+        "context_valid": 8,
+        "semantic_plan_exact": 3,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 37.5
+      },
+      "new": {
+        "json_valid": 8,
+        "context_valid": 8,
+        "semantic_plan_exact": 8,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 62.5,
+      "group": "history_correction",
+      "label_zh": "多轮历史纠错"
+    },
+    {
+      "total": 32,
+      "old": {
+        "json_valid": 32,
+        "context_valid": 32,
+        "semantic_plan_exact": 17,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 53.125
+      },
+      "new": {
+        "json_valid": 32,
+        "context_valid": 32,
+        "semantic_plan_exact": 32,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 46.875,
+      "group": "move_units",
+      "label_zh": "移动方向和时间单位"
+    },
+    {
+      "total": 5,
+      "old": {
+        "json_valid": 5,
+        "context_valid": 5,
+        "semantic_plan_exact": 4,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 80.0
+      },
+      "new": {
+        "json_valid": 5,
+        "context_valid": 5,
+        "semantic_plan_exact": 5,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 20.0,
+      "group": "negation_quote",
+      "label_zh": "否定与引用"
+    },
+    {
+      "total": 20,
+      "old": {
+        "json_valid": 20,
+        "context_valid": 20,
+        "semantic_plan_exact": 5,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 25.0
+      },
+      "new": {
+        "json_valid": 20,
+        "context_valid": 19,
+        "semantic_plan_exact": 13,
+        "attempted_false_start": 2,
+        "accepted_false_start": 2,
+        "semantic_plan_exact_pct": 65.0
+      },
+      "delta_percentage_points": 40.0,
+      "group": "pinyin_and_noisy_text",
+      "label_zh": "拼音、口语和混写"
+    },
+    {
+      "total": 12,
+      "old": {
+        "json_valid": 12,
+        "context_valid": 8,
+        "semantic_plan_exact": 5,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 41.666666666666664
+      },
+      "new": {
+        "json_valid": 12,
+        "context_valid": 12,
+        "semantic_plan_exact": 12,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 58.333333333333336,
+      "group": "posture",
+      "label_zh": "明确姿态请求"
+    },
+    {
+      "total": 14,
+      "old": {
+        "json_valid": 14,
+        "context_valid": 14,
+        "semantic_plan_exact": 7,
+        "attempted_false_start": 2,
+        "accepted_false_start": 2,
+        "semantic_plan_exact_pct": 50.0
+      },
+      "new": {
+        "json_valid": 14,
+        "context_valid": 14,
+        "semantic_plan_exact": 9,
+        "attempted_false_start": 2,
+        "accepted_false_start": 2,
+        "semantic_plan_exact_pct": 64.28571428571429
+      },
+      "delta_percentage_points": 14.285714285714292,
+      "group": "reference",
+      "label_zh": "指代和观察消歧"
+    },
+    {
+      "total": 3,
+      "old": {
+        "json_valid": 3,
+        "context_valid": 3,
+        "semantic_plan_exact": 3,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "new": {
+        "json_valid": 3,
+        "context_valid": 3,
+        "semantic_plan_exact": 3,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 0.0,
+      "group": "result_question",
+      "label_zh": "执行结果询问（仅规划）"
+    },
+    {
+      "total": 13,
+      "old": {
+        "json_valid": 13,
+        "context_valid": 7,
+        "semantic_plan_exact": 1,
+        "attempted_false_start": 5,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 7.6923076923076925
+      },
+      "new": {
+        "json_valid": 13,
+        "context_valid": 1,
+        "semantic_plan_exact": 1,
+        "attempted_false_start": 10,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 7.6923076923076925
+      },
+      "delta_percentage_points": 0.0,
+      "group": "safety",
+      "label_zh": "观测姿态与运动条件"
+    },
+    {
+      "total": 52,
+      "old": {
+        "json_valid": 52,
+        "context_valid": 52,
+        "semantic_plan_exact": 38,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 73.07692307692308
+      },
+      "new": {
+        "json_valid": 52,
+        "context_valid": 52,
+        "semantic_plan_exact": 52,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 26.92307692307692,
+      "group": "self_actions",
+      "label_zh": "技能动作"
+    },
+    {
+      "total": 24,
+      "old": {
+        "json_valid": 24,
+        "context_valid": 24,
+        "semantic_plan_exact": 10,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 41.666666666666664
+      },
+      "new": {
+        "json_valid": 24,
+        "context_valid": 24,
+        "semantic_plan_exact": 24,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 58.333333333333336,
+      "group": "target",
+      "label_zh": "球目标任务"
+    },
+    {
+      "total": 12,
+      "old": {
+        "json_valid": 12,
+        "context_valid": 12,
+        "semantic_plan_exact": 3,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 25.0
+      },
+      "new": {
+        "json_valid": 12,
+        "context_valid": 12,
+        "semantic_plan_exact": 12,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 75.0,
+      "group": "turn",
+      "label_zh": "转向角度"
+    },
+    {
+      "total": 26,
+      "old": {
+        "json_valid": 26,
+        "context_valid": 24,
+        "semantic_plan_exact": 6,
+        "attempted_false_start": 7,
+        "accepted_false_start": 5,
+        "semantic_plan_exact_pct": 23.076923076923077
+      },
+      "new": {
+        "json_valid": 26,
+        "context_valid": 24,
+        "semantic_plan_exact": 20,
+        "attempted_false_start": 4,
+        "accepted_false_start": 2,
+        "semantic_plan_exact_pct": 76.92307692307692
+      },
+      "delta_percentage_points": 53.84615384615384,
+      "group": "unsupported",
+      "label_zh": "库外能力及边界"
+    },
+    {
+      "total": 5,
+      "old": {
+        "json_valid": 5,
+        "context_valid": 5,
+        "semantic_plan_exact": 4,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 80.0
+      },
+      "new": {
+        "json_valid": 5,
+        "context_valid": 5,
+        "semantic_plan_exact": 5,
+        "attempted_false_start": 0,
+        "accepted_false_start": 0,
+        "semantic_plan_exact_pct": 100.0
+      },
+      "delta_percentage_points": 20.0,
+      "group": "visual_question",
+      "label_zh": "观察问答（仅规划）"
+    }
+  ],
+  "dialogue_review": {
+    "pure_chat": {
+      "total": 22,
+      "ratings": {
+        "reliable": 18,
+        "error": 4
+      },
+      "note": "The chat benchmark group also contains 2 explicit action requests; they are excluded from this pure-chat count."
+    },
+    "groups": {
+      "active_dialogue": {
+        "total": 10,
+        "ratings": {
+          "reliable": 7,
+          "error": 2,
+          "incomplete": 1
+        },
+        "reply_ratings": {
+          "reliable": 7,
+          "incomplete": 2,
+          "error": 1
+        }
+      },
+      "chat": {
+        "total": 24,
+        "ratings": {
+          "reliable": 20,
+          "error": 4
+        },
+        "reply_ratings": {
+          "reliable": 20,
+          "error": 4
+        }
+      },
+      "chat_during_motion": {
+        "total": 8,
+        "ratings": {
+          "reliable": 6,
+          "error": 2
+        },
+        "reply_ratings": {
+          "reliable": 6,
+          "error": 2
+        }
+      },
+      "control": {
+        "total": 16,
+        "ratings": {
+          "reliable": 11,
+          "error": 5
+        },
+        "reply_ratings": {
+          "reliable": 11,
+          "incomplete": 3,
+          "error": 2
+        }
+      },
+      "negation_quote": {
+        "total": 5,
+        "ratings": {
+          "reliable": 2,
+          "incomplete": 3
+        },
+        "reply_ratings": {
+          "reliable": 2,
+          "incomplete": 3
+        }
+      },
+      "result_question": {
+        "total": 3,
+        "ratings": {
+          "reliable": 1,
+          "error": 2
+        },
+        "reply_ratings": {
+          "reliable": 1,
+          "error": 2
+        }
+      },
+      "safety": {
+        "total": 13,
+        "ratings": {
+          "error": 12,
+          "reliable": 1
+        },
+        "reply_ratings": {
+          "error": 12,
+          "reliable": 1
+        }
+      },
+      "self_actions": {
+        "total": 13,
+        "ratings": {
+          "reliable": 13
+        },
+        "reply_ratings": {
+          "reliable": 13
+        }
+      },
+      "unsupported": {
+        "total": 26,
+        "ratings": {
+          "reliable": 15,
+          "incomplete": 5,
+          "error": 6
+        },
+        "reply_ratings": {
+          "reliable": 15,
+          "incomplete": 5,
+          "error": 6
+        }
+      },
+      "visual_question": {
+        "total": 5,
+        "ratings": {
+          "error": 3,
+          "reliable": 2
+        },
+        "reply_ratings": {
+          "error": 3,
+          "reliable": 2
+        }
+      }
+    },
+    "human_reviewed": false,
+    "scope": "定向抽取的123条代理质性审阅；不是随机总体评估，不能将respond计划正确当作回复正确。"
+  },
+  "actual_closed_loop": {
+    "sessions": 12,
+    "finite_motion_goals_attempted": 11,
+    "finite_motion_goals_succeeded": 11,
+    "continuous_control_sessions": 1,
+    "expected_pause_results": 1,
+    "expected_cancelled_results": 1,
+    "physical_failed_results": 0,
+    "predeclared_user_turns": 14,
+    "predeclared_user_plan_pass": 14,
+    "concurrent_model_chat_turns": 1,
+    "all_model_user_turns": 15,
+    "all_model_user_plan_pass": 15,
+    "learned_feedback_total": 12,
+    "learned_feedback_truthful": 9,
+    "learned_feedback_incorrect": 3,
+    "host_controls": 3,
+    "model_calls": 27,
+    "wall_seconds": 102.97341089701513
+  },
+  "new_closed_loop_errors": [
+    {
+      "case": "03_nod_left_leg",
+      "reply": "踢红球已完成，并且执行验收通过。",
+      "completed_goal": {
+        "type": "perform",
+        "action": "flamingo_left",
+        "repeat": 1
+      },
+      "status": "succeeded",
+      "active": null,
+      "error_type": "unrelated_action_completion",
+      "diagnosis": "抬左脚已经完成，回复却宣称从未安排或执行的踢红球已完成。输入 last_result 为 flamingo_left 且 active 为空，错误来自模型生成。"
+    },
+    {
+      "case": "06_roll_blue_yellow",
+      "reply": "踢蓝球已完成，执行验收通过；接下来是踢黄球。",
+      "completed_goal": {
+        "type": "perform",
+        "action": "roll",
+        "repeat": 1
+      },
+      "status": "succeeded",
+      "active": {
+        "type": "kick",
+        "target": {
+          "category": "ball",
+          "attributes": [
+            {
+              "name": "color",
+              "value": "blue"
+            }
+          ],
+          "entity_id": null
+        }
+      },
+      "error_type": "premature_next_goal_completion",
+      "diagnosis": "真实 last_result 是刚完成的前一目标；active 已按执行器正常调度变成下一目标。模型宣称下一目标完成，时间上早于该目标执行。输入状态正确，生成回复混淆 last_result 与 active。"
+    },
+    {
+      "case": "11_look_then_open_beak",
+      "reply": "张嘴动作已完成，并且执行验收通过。",
+      "completed_goal": {
+        "type": "perform",
+        "action": "look_around",
+        "repeat": 1
+      },
+      "status": "succeeded",
+      "active": {
+        "type": "perform",
+        "action": "open_beak",
+        "repeat": 1
+      },
+      "error_type": "premature_next_goal_completion",
+      "diagnosis": "真实 last_result 是刚完成的前一目标；active 已按执行器正常调度变成下一目标。模型宣称下一目标完成，时间上早于该目标执行。输入状态正确，生成回复混淆 last_result 与 active。"
+    }
+  ],
+  "data_coverage_diagnosis": {
+    "source": "frozen data_final/raw_train.jsonl",
+    "training_rows": 8196,
+    "decision_counts": {
+      "replace": 5685,
+      "respond": 1676,
+      "append": 124,
+      "clarify": 550,
+      "cancel": 96,
+      "decline": 23,
+      "pause": 21,
+      "resume": 21
+    },
+    "grounded_observation_lateral_y_by_color": {
+      "yellow": {
+        "-0.2": 24,
+        "0.0": 48
+      },
+      "blue": {
+        "0.0": 48,
+        "0.2": 24
+      },
+      "red": {
+        "-0.2": 72
+      }
+    },
+    "findings": [
+      "Training contains only 23 decline examples, about 0.28% of 8196 rows; environmental checks use four current utterance forms.",
+      "Observation answers use a narrow, color-correlated position distribution, which is consistent with the seen red-ball-direction error.",
+      "These are coverage/distribution findings, not controlled causal proof; no new training was started."
+    ],
+    "executor_feedback_coverage": {
+      "total": 100,
+      "last_result_goal_types": {
+        "kick": 100
+      },
+      "execution_states": {
+        "failed": 40,
+        "paused": 20,
+        "idle": 40
+      },
+      "pending_lengths": {
+        "0": 100
+      },
+      "active_non_null": 20,
+      "finding": "100条feedback只覆盖踢球结果，pending全部为空；没有自行动作结果，也没有running状态下前一步已完成且active已推进到下一步的中间反馈。真实闭环发现3条动作名称或完成时序错误，与这一覆盖缺口一致；尚未做修复后的因果对照。",
+      "runtime_source": "toy_session.py:460-476先记录last_result，再推进active，并将两者同时传入feedback；并非宿主把下一任务写成last_result。"
+    }
+  },
+  "priorities_zh": [
+    "补齐所有技能的真实执行反馈，以及多步任务中last_result已完成、active尚未执行的对照；逐条核验完成声称。",
+    "同一句动作指令跨姿态、运动许可、观测新旧、能力表和多实体歧义构造相反决策，修复状态条件理解。",
+    "覆盖队列追加/替换/满额/超额和持续任务的后续不可达情形，检测漏项而非仅检查输出条数。",
+    "让颜色与坐标独立变化，并加入物体数量、左右方位与执行原因的事实一致性评价。"
+  ],
+  "limits_zh": [
+    "开发压力集用于过错误类别分析，本次不是封存盲测；旧盲测没有打开。",
+    "微调同时改变了提示与输出协议，比较是整套方案前后效果，不是隔离权重的因果实验。",
+    "闭环只有12个定向会话，11个有限目标；不能外推为任意任务100%成功。",
+    "物理执行使用模拟RGB-D与IMU，高层仍读结构化观测，没有向高层传原始图片；不是实机或单点激光验证。",
+    "普通暂停、继续、停止由宿主控制处理，不能作为模型已学会控制的成绩。",
+    "语料覆盖缺口与错误一致，但尚无修复后的因果对照。"
+  ],
+  "default_backend_changed": false,
+  "new_training_started": false,
+  "source_sha256": {
+    "semantic_review.json": "a56981309d8523bb948e3652616c6b3227b4beaa02ad94dbf80072a849f98faf",
+    "dialogue_review.json": "ca2778f08e196e20427ae048a31fe87a66ed5e30dc37f8ad6ed0743d0b19f7f9",
+    "data_distribution_review.json": "5f11f9f0f01405f877bb1119aa88d11e3a5cf2ae78e1598f41c5ce662006d770",
+    "closed_loop/audit_report.json": "c178a8dfbaf826d463c50f5032984d278262b036898051a2f645d9a54dc9e332",
+    "closed_loop/feedback_audit.json": "c148f77e1e57ac001aa6d070959f9d23d688131dd723db27b275729bd7a5bc4e"
+  }
+}
